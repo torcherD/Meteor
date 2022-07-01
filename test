@@ -3219,6 +3219,7 @@ function getcustomasset(path, name)
           text:remove()
           ScreenGuii:remove()
       end)
+      makefolder("Meteor/assets")
       local req = "https://raw.githubusercontent.com/eixotic07/Meteor/main/assets/"..name ..".png"
       writefile(path,game:HttpGet(req))
   end
