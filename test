@@ -1,30 +1,25 @@
 
-
-
-if (_G.RLLOADED) then
-    if (printconsole) then 
-        printconsole('Already loaded Redline', 255, 64, 64)
-        printconsole('Destroy the current script by pressing [End]', 192, 192, 255)
-        return
-    else
-        warn('Already loaded Redline\nDestroy the current script by pressing [End]')
-        return
-    end
-end
-
 if (Drawing == nil) then
-    warn('Unfortunately, your executor is missing the Drawing library and is not supported by Redline.')
+    warn('Unfortunately, your executor is missing the Drawing library and is not supported by Meteor.')
     warn('Consider upgrading to an exploit like Fluxus or KRNL')
     return
 end
 
--- { Make redline folder } --
+-- { Make meteor folder } --
 if (not isfile('Meteor')) then
     makefolder('Meteor')
 end
 
+if (not isfile("Meteor/assets")) then
+    makefolder("Meteor/assets")
+end
+
+if (not isfile("Meteor/configs")) then
+    makefolder("Meteor/configs")
+end
+
 -- { Version } --
-local REDLINEVER = 'v0.6.3.1'
+local METEORVER = 'v0.6.3.1'
 
 
 local IndentLevel1 = 8
@@ -38,16 +33,16 @@ if not game:IsLoaded() then game.Loaded:Wait() end
 -- { Microops } --
 
 -- Services
-local servContext   = game:GetService('ContextActionService')
-local servGui       = game:GetService('GuiService')
-local servHttp      = game:GetService('HttpService')
-local servNetwork   = game:GetService('NetworkClient')
-local servPlayers   = game:GetService('Players')
-local servRun       = game:GetService('RunService')
-local servTeleport  = game:GetService('TeleportService')
-local servTween     = game:GetService('TweenService')
-local servInput     = game:GetService('UserInputService')
-local servVim       = game:GetService('VirtualInputManager')
+local servContext = game:GetService('ContextActionService')
+local servGui = game:GetService('GuiService')
+local servHttp = game:GetService('HttpService')
+local servNetwork = game:GetService('NetworkClient')
+local servPlayers = game:GetService('Players')
+local servRun = game:GetService('RunService')
+local servTeleport = game:GetService('TeleportService')
+local servTween = game:GetService('TweenService')
+local servInput = game:GetService('UserInputService')
+local servVim = game:GetService('VirtualInputManager')
 
 -- Colors
 local colRgb,colHsv,colNew = Color3.fromRGB, Color3.fromHSV, Color3.new
@@ -161,12 +156,12 @@ local function DecodeThemeJson(json)
     return RLTHEME, RLTHEMEFONT
 end
 
-if (isfile('REDLINE/theme.jsonc')) then
+if (isfile('Meteor/theme.jsonc')) then
     _G.RLLOADERROR = 0
     
     local ThemeData, Font
     pcall(function()
-        local FileData = readfile('REDLINE/theme.jsonc')
+        local FileData = readfile('Meteor/theme.jsonc')
         ThemeData, Font = DecodeThemeJson(FileData)
     end)
     
@@ -365,11 +360,33 @@ local ui = {} do
     local ui_Menus = {}
     local ui_Widgets = {}
     local ui_Modules = {}
+    _G.ToggleTables = {}
     
     local rgbinsts = {}
     
     local monitor_resolution = servGui:GetScreenResolution()
     local monitor_inset = servGui:GetGuiInset()
+
+    local SaveDataFileName = "Meteor/Configs/" .. game.PlaceId .. ".txt"
+
+    local servHttp = game:GetService("HttpService")
+    
+    function saveSettings()
+        local json;
+        if (writefile) then
+            json = servHttp:JSONEncode(_G.ToggleTables);
+            writefile(SaveDataFileName, json);
+        else
+            game.Players.LocalPlayer:Kick("Get krnl or synapse x")
+        end
+    end
+    
+    function loadSettings()
+        if (readfile and isfile and isfile(SaveDataFileName)) then
+            _G.ToggleTables = servHttp:JSONDecode(readfile(SaveDataFileName));
+        end
+    end
+
     
     -- connections
     ui_Connections['i'] = servInput.InputBegan:Connect(function(io, gpe) 
@@ -537,7 +554,7 @@ local ui = {} do
         w_ModListTitle.Font = RLTHEMEFONT
         w_ModListTitle.LayoutOrder = 939
         w_ModListTitle.Size = dimNew(1, 0, 0, 30)
-        w_ModListTitle.Text = ' '..'Redline '..REDLINEVER..' '
+        w_ModListTitle.Text = ' '..'Meteor '..METEORVER..' '
         w_ModListTitle.TextColor3 = RLTHEMEDATA['tm'][1]
         w_ModListTitle.TextSize = 24
         w_ModListTitle.TextStrokeColor3 = RLTHEMEDATA['to'][1]
@@ -764,8 +781,14 @@ local ui = {} do
                 
                 if (t) then
                     ModListEnable(self.Name)
-                else
+                        _G.ToggleTables[self.Name] = true
+                        saveSettings()
+                        print(self.Name .. " is true")
+                    else
                     ModListDisable(self.Name)
+                        _G.ToggleTables[self.Name] = false
+                        saveSettings()
+                        print(self.Name .. " is false")
                 end
                 return self 
             end
@@ -1215,6 +1238,8 @@ local ui = {} do
                 end
                     
                 local M_Object = {} do 
+                    loadSettings()
+
                     M_Object.Tooltip = nil
                     
                     M_Object.MToggled = false
@@ -1263,6 +1288,13 @@ local ui = {} do
                 end
                 
                 do
+
+                    if _G.ToggleTables[text] then
+                        M_Object:Toggle()
+                    end
+
+
+
                     m_ModuleBackground.InputBegan:Connect(function(io) 
                         local uitv = io.UserInputType.Value
                         if (uitv == 0) then
@@ -2656,7 +2688,7 @@ local ui = {} do
         m_Header.BackgroundTransparency = RLTHEMEDATA['bm'][2]
         m_Header.BorderSizePixel = 0
         m_Header.ClipsDescendants = false
-        m_Header.Size = dimOffset(monitor_resolution.X < 1500 and 170 or 300, 30)
+        m_Header.Size = dimOffset(1366 < 1500 and 170 or 300, 30)
 
         local FinalPosition do 
         local MenusPerRow = mathFloor(((monitor_resolution.X-100) / 200))
@@ -2819,7 +2851,7 @@ local ui = {} do
         tabInsert(ui_Menus, M_Object)
         return M_Object
     end
-    function ui:CreateWidget(Name, Position, Size, InRedlineWindow) 
+    function ui:CreateWidget(Name, Position, Size, InMeteorWindow) 
         local W_Id = #ui_Widgets+1
         local W_IndexOffset = 25+(W_Id * 15)
         
@@ -2843,7 +2875,7 @@ local ui = {} do
         w_Header.TextXAlignment = 'Center'
         w_Header.Visible = true 
         w_Header.ZIndex = W_IndexOffset
-        w_Header.Parent = InRedlineWindow and w_ModFrame or w_Main
+        w_Header.Parent = InMeteorWindow and w_ModFrame or w_Main
         
         stroke(w_Header, 'Border')
         
@@ -2944,7 +2976,7 @@ local ui = {} do
         _G.RLTHEMEFONT = nil
         _G.RLLOADERROR = nil
         
-        writefile('REDLINE/Queued.txt','')
+        writefile('Meteor/Queued.txt','')
         
         local sound = instNew('Sound')
         sound.SoundId = 'rbxassetid://9009668475'
@@ -3169,7 +3201,7 @@ local ui = {} do
     delay(5, function() 
         if (ui_Menus ~= nil and #ui_Menus == 0) then
             ui:Destroy()
-            warn'[REDLINE] Failure to clean library resources!\nAutomatically cleared for you; make sure to\ncall ui:Destroy() when finished'
+            warn'[METEOR] Failure to clean library resources!\nAutomatically cleared for you; make sure to\ncall ui:Destroy() when finished'
         end
     end)
 end
@@ -3287,9 +3319,106 @@ repeat wait(1/44)
 until not p or p.Parent ~= torso.Parent
 end
 
-function ActivateCape()
-    Cape(game.Players.LocalPlayer.Character, getcustomasset("Meteor/assets/MeteorCape.png", "MeteorCape"))
+local lplr = game.Players.LocalPlayer
+local cam = workspace.CurrentCamera
+
+local Client = require(game:GetService("ReplicatedStorage").TS.remotes).default.Client
+local KnitClient = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 6)
+
+local InventoryUtil = require(game:GetService("ReplicatedStorage").TS.inventory["inventory-util"]).InventoryUtil
+local ItemsMeta = debug.getupvalue(require(game:GetService("ReplicatedStorage").TS.item["item-meta"]).getItemMeta, 1)
+
+function getinv(plr)
+    local plr = plr or lplr
+    local InvenUtil1, InvenUtil2 = pcall(function() return InventoryUtil.getInventory(plr) end)
+    return (InvenUtil1 and InvenUtil2 or {
+        items = {},
+        armor = {},
+        hand = nil
+    })
 end
+
+function getsword()
+    local SwordDamage
+    local HighDamage
+    local SwordSlots
+    local Swords = getinv().items
+    for i, v in pairs(Swords) do
+        if v.itemType:lower():find("sword") or v.itemType:lower():find("blade") then
+            if HighDamage == nil or ItemsMeta[v.itemType].sword.damage > HighDamage then
+                SwordDamage = v
+                HighDamage = ItemsMeta[v.itemType].sword.damage
+                SwordSlots = i
+            end
+        end
+    end
+    return SwordDamage, SwordSlots
+end
+
+local function getremote(tab)
+    for i,v in pairs(tab) do
+        if v == "Client" then
+            return tab[i + 1]
+        end
+    end
+    return ""
+end
+
+local function hvFunc(cock)
+    return {hashedval = cock}
+end
+
+
+local attackentitycont = Client:Get(getremote(debug.getconstants(getmetatable(KnitClient.Controllers.SwordController)["attackEntity"])))  
+
+local DistanceValue = 18
+
+function KillauraRemote()
+for i,v in pairs(game.Players:GetChildren()) do
+    if v.Character and v.Name ~= game.Players.LocalPlayer.Name and v.Character:FindFirstChild("HumanoidRootPart") then
+        if (v.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= DistanceValue and v.Team ~= game.Players.LocalPlayer.Team and v.Character:FindFirstChild("Humanoid") then
+            if v.Character.Humanoid.Health > 0 then
+                local GBW = getsword()
+                local selfPosition = lplr.Character.HumanoidRootPart.Position + (DistanceValue > 14 and (lplr.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).magnitude > 14 and (CFrame.lookAt(lplr.Character.HumanoidRootPart.Position, v.Character.HumanoidRootPart.Position).lookVector * 4) or Vector3.new(0, 0, 0))
+                local Entity = v.Character
+                local target = v.Character:GetPrimaryPartCFrame().Position
+                    attackentitycont:CallServer({
+                        ["chargedAttack"] = {["chargeRatio"] = 1},
+                        ["weapon"] = GBW ~= nil and GBW.tool,
+                        ["entityInstance"] = Entity,
+                        ["validate"] = {["targetPosition"] = {["value"] = target,
+                            ["hash"] = hvFunc(target)},
+                            ["raycast"] = {
+                                ["cameraPosition"] = hvFunc(cam.CFrame.Position), 
+                                ["cursorDirection"] = hvFunc(Ray.new(cam.CFrame.Position, v.Character:GetPrimaryPartCFrame().Position).Unit.Direction)
+                            },
+                            ["selfPosition"] = {["value"] = selfPosition,
+                                ["hash"] = hvFunc(selfPosition)
+                            }
+                        }
+                    })
+                end
+            end
+        end
+    end 
+end
+
+
+HeartTable = {}
+
+function BindToHeartbeat(name, num, func)
+	if HeartTable[name] == nil then
+		HeartTable[name] = game:GetService("RunService").Heartbeat:connect(func)
+	end
+end
+
+function UnbindFromHeartbeat(name)
+	if HeartTable[name] then
+		HeartTable[name]:Disconnect()
+		HeartTable[name] = nil
+	end
+end
+
 
 
 local m_meteor = ui:newMenu("Configs")
@@ -3298,6 +3427,36 @@ local m_player= ui:newMenu('Player')
 local m_expoit = ui:newMenu('Exploits')
 local m_render = ui:newMenu('Render')
 local m_world = ui:newMenu('World')
+
+
+
+-- COMBAT
+
+local c_killaura = m_combat:addMod("Kill Aura")
+
+
+
+local k_distance = c_killaura:addSlider('Distance',{min=-1,cur=18,max=24,step=1})
+
+k_distance:Connect("Changed", function(v)
+    local real_distance = v
+end)
+
+
+c_killaura:Connect("Enabled", function()
+    BindToHeartbeat("KillAura", 0, function(v)
+        KillauraRemote()
+    end)
+end)
+
+
+
+c_killaura:Connect("Disabled", function()
+    UnbindFromHeartbeat("KillAura")
+end)
+
+c_killaura:Reset()
+
 
 -- RENDER
 
@@ -3337,29 +3496,5 @@ r_cape:Connect("Disabled", function(v)
     end
 end)
 
---[[
+r_cape:Reset()
 
-local toggle = m_server:addMod('Notification')
-
-toggle:addSlider("Slider",{min = 10, max = 100, step = 1, cur = 50}):setTooltip("50 is better")
-
-
-wait(1)
-
-toggle:Connect("Enabled", function(v)
-_G.settingsTable.Zip = true
-saveSettings()
-print("true")
-end)
-
-toggle:Connect("Disabled", function(v)
-_G.settingsTable.Zip = false
-saveSettings()
-print("false")
-end)
-
-if _G.settingsTable.Zip then
-    toggle:Toggle()
-end
-
-]]
