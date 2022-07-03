@@ -353,7 +353,8 @@ end
 local W_WindowOpen = false or false
 local RGBCOLOR
 -- { UI } --
-local ui = {} do 
+local Shared.ui = {} do 
+local ui = Shared.ui
     
     local ui_Hotkeys = {}
     local ui_Connections = {}
@@ -3205,6 +3206,4 @@ local ui = {} do
         end
     end)
 end
-
 -- // END METEOR LIBRARY
-return ui
