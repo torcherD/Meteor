@@ -908,6 +908,9 @@ local base_class = {} do
             self.Hotkey = kcv
             label.Text = 'Hotkey: ' .. Enum.KeyCode[hotkey].Name
             
+            
+            Configs[self.Parent.Name]["Keybind"] = Enum.KeyCode[hotkey].Name
+            saveSettings()
 
             delay(0.01, function()
                 local n = self.Parent.Name
@@ -926,10 +929,15 @@ local base_class = {} do
         base_class.s_modhotkey_sethotkey = function(self) 
             local label = self.Label
             label.Text = 'Press any key...'
-            
+
+            print(self.Parent.Name)
+
             wait(0.01);
             local c;
             c = servInput.InputBegan:Connect(function(io,gpe)
+                
+                Configs[self.Parent.Name]["Keybind"] = io.KeyCode.Name
+                saveSettings()
                 
                 local kcv = io.KeyCode.Value
                 if (kcv ~= 0) then
@@ -2008,7 +2016,7 @@ local base_class = {} do
             H_Object.Flags['HotkeySet'] = true
             
             H_Object.setHotkey = base_class.s_modhotkey_sethotkey
-            H_Object.SetNewHotKey = base_class.s_modhoykey_setnewhotkey
+            H_Object.setNewHotKey = base_class.s_modhoykey_setnewhotkey
             H_Object.GetHotkey = base_class.s_modhotkey_gethotkey
             H_Object.getValue = base_class.s_modhotkey_gethotkey
             
@@ -2017,13 +2025,10 @@ local base_class = {} do
         end
         
         do
-            if not Configs[self.Name]["Keybind"] then
-                Configs[self.Name]["Keybind"] = ""
-            end
 
             if Configs[self.Name] then
-                if Configs[self.Name]["Keybind"] then
-                    H_Object:setNewHotkey([Configs[self.Name]["Keybind"]])
+                if Configs[self.Name]["Keybind"] ~= "" then
+                    H_Object:setNewHotKey(Configs[self.Name]["Keybind"])
                 end
             end
             -- H_Object:setNewHotKey(Enum.KeyCode.R)
@@ -3282,4 +3287,3 @@ delay(5, function()
 end)
 end
 return ui
-
