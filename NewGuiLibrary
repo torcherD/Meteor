@@ -904,10 +904,10 @@ local base_class = {} do
             local label = self.Label
             label.Text = 'Settings new key...'
             wait(0.01);
-            local kcv = hotkey.Value
+            local kcv = Enum.KeyCode[hotkey].Value
             self.Hotkey = kcv
-            label.Text = 'Hotkey: ' .. hotkey.Name
-            print(label.Text)
+            label.Text = 'Hotkey: ' .. Enum.KeyCode[hotkey].Name
+            
 
             delay(0.01, function()
                 local n = self.Parent.Name
@@ -2017,7 +2017,15 @@ local base_class = {} do
         end
         
         do
-            print(self.Name)
+            if not Configs[self.Name]["Keybind"] then
+                Configs[self.Name]["Keybind"] = ""
+            end
+
+            if Configs[self.Name] then
+                if Configs[self.Name]["Keybind"] then
+                    H_Object:setNewHotkey([Configs[self.Name]["Keybind"]])
+                end
+            end
             -- H_Object:setNewHotKey(Enum.KeyCode.R)
 
             h_Hotkey.InputBegan:Connect(function(io) 
@@ -3274,3 +3282,4 @@ delay(5, function()
 end)
 end
 return ui
+
