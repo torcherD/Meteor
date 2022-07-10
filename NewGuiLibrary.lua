@@ -936,6 +936,7 @@ local base_class = {} do
             local c;
             c = servInput.InputBegan:Connect(function(io,gpe)
                 
+
                 Configs[self.Parent.Name]["Keybind"] = io.KeyCode.Name
                 saveSettings()
                 
