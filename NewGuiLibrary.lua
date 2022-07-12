@@ -860,7 +860,15 @@ local base_class = {} do
     do
         base_class.s_toggle_self = function(self) 
             local t = not self.Toggled
-            
+
+            if (t) then
+                Configs[self.PName]["Extras"][self.Name] = true
+                saveSettings()
+            else
+                Configs[self.PName]["Extras"][self.Name] = false
+                saveSettings()
+            end
+
             pcall(self.Flags.Toggled, t)
             pcall(self.Flags.Enabled)
             pcall(self.Flags.Disabled)
@@ -1333,12 +1341,13 @@ local base_class = {} do
             
             do
                 if not Configs[text] then
-                    Configs[text] = {["Keybind"] = "", ["IsToggled"] = "", ["MenuToggled"] = ""}
+                    Configs[text] = {["Keybind"] = "", ["IsToggled"] = "", ["MenuToggled"] = "", ["Extras"] = {}}
                 end
 
                 if Configs[text] then
                     if Configs[text]["IsToggled"] == true then
                         M_Object:Toggle()
+                        M_Object:Reset()
                     end
                     if Configs[text]["MenuToggled"] == true then
                         M_Object:ToggleMenu()
@@ -1784,6 +1793,7 @@ local base_class = {} do
             
             T_Object.Icon = t_Box2
             T_Object.Name = text
+            T_Object.PName = self.Name
             
             T_Object.Toggle = base_class.s_toggle_self
             T_Object.Disable = base_class.s_toggle_disable
@@ -1798,6 +1808,13 @@ local base_class = {} do
         end
         
         do
+            if Configs[self.Name] then
+                if Configs[self.Name]["Extras"][text] == true then
+                    T_Object:Toggle()
+                    T_Object:Reset()
+                end
+            end
+
             t_Toggle.InputBegan:Connect(function(io) 
                 local uitv = io.UserInputType.Value
                 if (uitv == 0) then
