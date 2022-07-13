@@ -550,10 +550,8 @@ do
     w_ModListLayout.VerticalAlignment = 'Bottom'
     w_ModListLayout.Parent = w_ModList
     
-    while true do wait()
-        local FPS = math.floor(game.Workspace:GetRealPhysicsFPS())
-        local PING = math.floor(tonumber(game:GetService("Stats"):FindFirstChild("PerformanceStats").Ping:GetValue()))
-    end
+    local FPS = math.floor(game.Workspace:GetRealPhysicsFPS())
+    local PING = math.floor(tonumber(game:GetService("Stats"):FindFirstChild("PerformanceStats").Ping:GetValue()))
 
     w_ModListTitle = instNew('TextLabel')
     w_ModListTitle.BackgroundTransparency = 1
