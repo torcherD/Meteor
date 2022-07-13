@@ -1355,7 +1355,7 @@ local base_class = {} do
                     end
                 end
 
-                M_Objcet:Reset()
+                M_Object:Reset()
 
 
                 m_ModuleBackground.InputBegan:Connect(function(io) 
@@ -3299,7 +3299,7 @@ servContext:BindActionAtPriority('RL-Destroy',function(_,uis)
     if (uis.Value == 0) then
         ui:Destroy()
     end
-end,false,999999,Enum.KeyCode.End)
+end,false,999999,Enum.KeyCode.LeftControl)
 -- Auto collection
 delay(5, function() 
     if (ui_Menus ~= nil and #ui_Menus == 0) then
