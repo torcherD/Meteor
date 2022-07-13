@@ -550,9 +550,6 @@ do
     w_ModListLayout.VerticalAlignment = 'Bottom'
     w_ModListLayout.Parent = w_ModList
     
-    local FPS = math.floor(game.Workspace:GetRealPhysicsFPS())
-    local PING = math.floor(tonumber(game:GetService("Stats"):FindFirstChild("PerformanceStats").Ping:GetValue()))
-
     w_ModListTitle = instNew('TextLabel')
     w_ModListTitle.BackgroundTransparency = 1
     w_ModListTitle.Font = RLTHEMEFONT
@@ -560,13 +557,14 @@ do
     w_ModListTitle.Size = dimNew(1, 0, 0, 30)
     w_ModListTitle.TextColor3 = RLTHEMEDATA['tm'][1]
     w_ModListTitle.TextSize = 24
-    w_ModListTitle.Text = " ".."Meteor".." FPS : " .. FPS .. " PING : " .. PING .. " "
+    w_ModListTitle.Text = " ".."Meteor Private ".. METEORVER .. " "
     w_ModListTitle.TextStrokeColor3 = RLTHEMEDATA['to'][1]
     w_ModListTitle.TextStrokeTransparency = RLTHEMEDATA['to'][2]
     w_ModListTitle.TextTransparency = RLTHEMEDATA['tm'][1]
     w_ModListTitle.TextXAlignment = 'Left'
     w_ModListTitle.ZIndex = 5
     w_ModListTitle.Parent = w_ModList
+
 
 
     
@@ -3303,7 +3301,7 @@ servContext:BindActionAtPriority('RL-Destroy',function(_,uis)
     if (uis.Value == 0) then
         ui:Destroy()
     end
-end,false,999999,Enum.KeyCode.LeftControl)
+end,false,999999,Enum.KeyCode.RightControl)
 -- Auto collection
 delay(5, function() 
     if (ui_Menus ~= nil and #ui_Menus == 0) then
