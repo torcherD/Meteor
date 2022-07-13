@@ -555,7 +555,7 @@ do
     w_ModListTitle.Font = RLTHEMEFONT
     w_ModListTitle.LayoutOrder = 939
     w_ModListTitle.Size = dimNew(1, 0, 0, 30)
-    w_ModListTitle.Text = " ".."Meteor "..METEORVER.." FPS : " .. math.floor(game.Workspace:GetRealPhysicsFPS()) .. "PING : " .. math.floor(tonumber(game:GetService("Stats"):FindFirstChild("PerformanceStats").Ping:GetValue())) .. " "
+    w_ModListTitle.Text = " ".."Meteor".." FPS : " .. math.floor(game.Workspace:GetRealPhysicsFPS()) .. " PING : " .. math.floor(tonumber(game:GetService("Stats"):FindFirstChild("PerformanceStats").Ping:GetValue())) .. " "
     w_ModListTitle.TextColor3 = RLTHEMEDATA['tm'][1]
     w_ModListTitle.TextSize = 24
     w_ModListTitle.TextStrokeColor3 = RLTHEMEDATA['to'][1]
@@ -1349,12 +1349,13 @@ local base_class = {} do
                 if Configs[text] then
                     if Configs[text]["IsToggled"] == true then
                         M_Object:Toggle()
-                        M_Object:Reset()
                     end
                     if Configs[text]["MenuToggled"] == true then
                         M_Object:ToggleMenu()
                     end
                 end
+
+                M_Objcet:Reset()
 
 
                 m_ModuleBackground.InputBegan:Connect(function(io) 
@@ -1369,6 +1370,7 @@ local base_class = {} do
                         return
                     end
                 end)
+
                 
                 m_ModuleBackground.MouseEnter:Connect(function() 
                     m_ModuleBackground.BackgroundColor3 = RLTHEMEDATA['ho'][1]
