@@ -555,7 +555,6 @@ do
     w_ModListTitle.Font = RLTHEMEFONT
     w_ModListTitle.LayoutOrder = 939
     w_ModListTitle.Size = dimNew(1, 0, 0, 30)
-    w_ModListTitle.Text = " ".."Meteor".." FPS : " .. math.floor(game.Workspace:GetRealPhysicsFPS()) .. " PING : " .. math.floor(tonumber(game:GetService("Stats"):FindFirstChild("PerformanceStats").Ping:GetValue())) .. " "
     w_ModListTitle.TextColor3 = RLTHEMEDATA['tm'][1]
     w_ModListTitle.TextSize = 24
     w_ModListTitle.TextStrokeColor3 = RLTHEMEDATA['to'][1]
@@ -564,6 +563,12 @@ do
     w_ModListTitle.TextXAlignment = 'Left'
     w_ModListTitle.ZIndex = 5
     w_ModListTitle.Parent = w_ModList
+
+    while true do wait()
+        if  w_ModListTitle then
+            w_ModListTitle.Text = " ".."Meteor".." FPS : " .. math.floor(game.Workspace:GetRealPhysicsFPS()) .. " PING : " .. math.floor(tonumber(game:GetService("Stats"):FindFirstChild("PerformanceStats").Ping:GetValue())) .. " "
+        end
+    end
 
     
     w_TooltipHeader = instNew('TextLabel')
