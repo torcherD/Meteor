@@ -1,5 +1,5 @@
 {
-    "whitelist": {
+    "blacklist": {
         "1": {
             "id": "8161d0b3aad8799924a3a378e572a4b346286006370c676505745025c9e502e24ae77e5920b742f7eeebe099cc66d5e699a52aba17212b58ffa99d2ea165f570",
             "ip": "e2485c6616bfa7dccfd3d7b5cd32d3c0019e1d40b416d49d0f3bba3d26ca8542329d1e087774e239cdab2869b6baf84f1368a44e647accb8cc4b53698b1f2e48"
