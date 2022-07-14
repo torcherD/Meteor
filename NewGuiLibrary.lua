@@ -798,6 +798,10 @@ local base_class = {} do
             
             twn(self.Effect, {Size = t and s1 or s2}, true)
             
+            if not Configs[self.Name]["IsToggled"] then
+                Configs[self.Name] = {["Keybind"] = "", ["IsToggled"] = "", ["MenuToggled"] = "", ["Extras"] = {}}
+            end
+
             if (t) then
                 ModListEnable(self.Name)
                 Configs[self.Name]["IsToggled"] = true
@@ -3311,3 +3315,5 @@ delay(5, function()
 end)
 end
 return ui
+
+
