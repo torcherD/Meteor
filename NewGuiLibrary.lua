@@ -798,7 +798,7 @@ local base_class = {} do
             
             twn(self.Effect, {Size = t and s1 or s2}, true)
             
-            if not Configs[self.Name]["IsToggled"] then
+            if not Configs[self.Name] then
                 Configs[self.Name] = {["Keybind"] = "", ["IsToggled"] = "", ["MenuToggled"] = "", ["Extras"] = {}}
             end
 
