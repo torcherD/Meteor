@@ -11,12 +11,17 @@ makefolder('Meteor')
 end
 
 if (not isfile("Meteor/assets")) then
-makefolder("Meteor/assets")
+    makefolder("Meteor/assets")
 end
 
 if (not isfile("Meteor/configs")) then
-makefolder("Meteor/configs")
+    makefolder("Meteor/configs")
 end
+
+if (not isfile("Meteor/scripts")) then
+    makefolder("Meteor/scripts")
+end
+    
 
 -- { Version } --
 local METEORVER = 'v0.6.3.1'
