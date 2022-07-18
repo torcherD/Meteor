@@ -2180,7 +2180,7 @@ local base_class = {} do
         
         args['min'] = args['min'] or 0
         args['max'] = args['max'] or 100
-        args['cur'] = args['cur'] or args['min']
+        args['cur'] = Configs[self.Name]["Extras"][text] or args['cur'] or args['min']
         args['step'] = args['step'] or 1
         
         
@@ -2342,10 +2342,6 @@ local base_class = {} do
         end
         
         S_Object:SetValue(args['cur'])
-
-		if Configs[self.Name]["Extras"][text] ~= nil then
-			S_Object:SetValue(Configs[self.Name]["Extras"][text])
-		end
 
         
         do
