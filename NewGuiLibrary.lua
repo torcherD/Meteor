@@ -2182,6 +2182,8 @@ local base_class = {} do
         args['max'] = args['max'] or 100
         args['cur'] = Configs[self.Name]["Extras"][text] or args['cur'] or args['min']
         args['step'] = args['step'] or 1
+
+        print(Configs[self.Name]["Extras"][text])
         
         
         local S_IndexOffset = self.ZIndex+1
