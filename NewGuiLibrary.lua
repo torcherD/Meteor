@@ -1094,6 +1094,9 @@ local base_class = {} do
 
             
             cval = round(mathClamp(nval, min, self.Max), self.Step)
+
+			Configs[self.PName]["Extras"][self.Name] = cval
+			saveSettings()
             
             if (pval ~= cval) then
                 pval = cval
@@ -1120,6 +1123,9 @@ local base_class = {} do
             local pos_normalized = mathClamp(xval - self.SliderBg.AbsolutePosition.X, 0, self.SliderSize)
             
             cval = round((pos_normalized * self.RatioInverse)+min, self.Step)
+
+			Configs[self.PName]["Extras"][self.Name] = cval
+			saveSettings()
             
             if (pval ~= cval) then
                 pval = cval
@@ -1360,13 +1366,13 @@ local base_class = {} do
                 if Configs[text] then
                     if Configs[text]["IsToggled"] == true then
                         M_Object:Toggle()
+						M_Object:Reset()
                     end
                     if Configs[text]["MenuToggled"] == true then
                         M_Object:ToggleMenu()
                     end
                 end
 
-                M_Object:Reset()
 
 
                 m_ModuleBackground.InputBegan:Connect(function(io) 
@@ -1826,7 +1832,6 @@ local base_class = {} do
             if Configs[self.Name] then
                 if Configs[self.Name]["Extras"][text] == true then
                     T_Object:Toggle()
-                    T_Object:Reset()
                 end
             end
 
@@ -2301,6 +2306,7 @@ local base_class = {} do
         local S_Object = {} do 
             S_Object.Tooltip = nil
             S_Object.Name = text
+			S_Object.PName = self.Name
             
             S_Object.SliderFill = s_SliderBar
             S_Object.SliderBg = s_SliderBarBg
@@ -2336,6 +2342,13 @@ local base_class = {} do
         end
         
         S_Object:SetValue(args['cur'])
+
+		if Configs[self.Name] then
+		    if Configs[self.Name]["Extras"][text] then
+			S_Object:SetValue(Configs[self.Name]["Extras"][text])
+		    end
+     	end
+
         
         do
             s_Slider.MouseEnter:Connect(function() 
@@ -3320,5 +3333,3 @@ delay(5, function()
 end)
 end
 return ui
-
-
