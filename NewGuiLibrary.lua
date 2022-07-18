@@ -2177,10 +2177,15 @@ local base_class = {} do
     end
     base_class.module_create_slider = function(self, text, args, primary) 
         text = tostring(text)
+
+        local newval = nil
+        if Configs[self.Name] then
+            newval = Configs[self.Name]["Extras"][text]
+        end
         
         args['min'] = args['min'] or 0
         args['max'] = args['max'] or 100
-        args['cur'] = Configs[self.Name]["Extras"][text] or args['cur'] or args['min']
+        args['cur'] = newval or args['cur'] or args['min']
         args['step'] = args['step'] or 1
 
         print(Configs[self.Name]["Extras"][text])
