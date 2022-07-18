@@ -2343,11 +2343,9 @@ local base_class = {} do
         
         S_Object:SetValue(args['cur'])
 
-		if Configs[self.Name] then
-		    if Configs[self.Name]["Extras"][text] then
+		if Configs[self.Name]["Extras"][text] ~= nil then
 			S_Object:SetValue(Configs[self.Name]["Extras"][text])
-		    end
-     	end
+		end
 
         
         do
