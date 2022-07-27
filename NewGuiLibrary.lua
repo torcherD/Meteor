@@ -824,7 +824,7 @@ local base_class = {} do
         m_Header.BackgroundColor3 = RLTHEMEDATA['bm'][1]
         m_Header.BackgroundTransparency = RLTHEMEDATA['bm'][2]
         m_Header.BorderSizePixel = 0
-        m_Header.Size = dimNew(1,0,0,30)
+        m_Header.Size = dimNew(1,0,0,20)
         m_Header.ZIndex = 162
         --m_Header.Parent = m_Notif
         
