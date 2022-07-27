@@ -799,7 +799,7 @@ local base_class = {} do
         m_Notif.BackgroundTransparency = RLTHEMEDATA['bo'][2]
         m_Notif.BorderSizePixel = 0
         m_Notif.Position = dimNew(1, 270, 1, -((#notifs*125)+((#notifs+1)*25)))
-        m_Notif.Size = dimOffset(160, 100)
+        m_Notif.Size = dimOffset(200, 100)
         m_Notif.ZIndex = 162
         --m_Notif.Parent = w_Screen
         
