@@ -835,7 +835,7 @@ local base_class = {} do
         m_Text.Font = RLTHEMEFONT
         m_Text.Position = dimOffset(32, 0)
         m_Text.RichText = true
-        m_Text.Size = dimNew(1, -32, 1, 0)
+        m_Text.Size = dimNew(1, -7, 1, 0)
         m_Text.Text = ''
         m_Text.TextColor3 = RLTHEMEDATA['tm'][1]
         m_Text.TextSize = 22
@@ -3340,3 +3340,5 @@ delay(5, function()
 end)
 end
 return ui
+
+
