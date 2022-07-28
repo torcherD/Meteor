@@ -862,16 +862,6 @@ local base_class = {} do
         m_Description.ZIndex = 162
         --m_Description.Parent = m_Notif
         
-        m_Icon = instNew('ImageLabel')
-        m_Icon.Size = dimOffset(26, 26)
-        m_Icon.Position = dimOffset(2,2)
-        m_Icon.BackgroundTransparency = 1
-        m_Icon.ImageColor3 = RLTHEMEDATA['ge'][1]
-        
-        --m_Icon.Image = not warning and 'rbxassetid://8854459207' or 'rbxassetid://8854458547'
-        m_Icon.Rotation = 0
-        m_Icon.ZIndex = 162
-        --m_Icon.Parent = m_Header
     end
     
     
@@ -901,7 +891,6 @@ local base_class = {} do
         m_Sound.SoundId = notifsounds[tone or 'none']
         m_Sound.Playing = true
         
-        m_Icon.Image = warning and 'rbxassetid://8854458547' or 'rbxassetid://8854459207'
         
         
         m_Notif.Position = dimNew(1, 275, 1, -((#notifs*125)+((#notifs+1)*25)))
@@ -973,7 +962,7 @@ end
                 saveSettings()
             else
                 ModListDisable(self.Name)
-                ui:Notify("Module toggled", self.Name .. " was Disabled")
+                ui:Notify("Module disabled", self.Name .. " was Disabled")
                 Configs[self.Name]["IsToggled"] = false
                 saveSettings()
             end
