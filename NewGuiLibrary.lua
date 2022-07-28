@@ -799,7 +799,7 @@ local base_class = {} do
         m_Notif.BackgroundTransparency = RLTHEMEDATA['bo'][2]
         m_Notif.BorderSizePixel = 0
         m_Notif.Position = dimNew(1, 270, 1, -((#notifs*125)+((#notifs+1)*25)))
-        m_Notif.Size = dimOffset(200, 100)
+        m_Notif.Size = dimOffset(180, 90)
         m_Notif.ZIndex = 162
         --m_Notif.Parent = w_Screen
         
@@ -901,7 +901,7 @@ local base_class = {} do
         
         
         
-        m_Notif.Position = dimNew(1, 275, 1, -((#notifs*125)+((#notifs+1)*25)))
+        m_Notif.Position = dimNew(1, 290, 1, -((#notifs*80)+((#notifs+1)*25)))
         m_Notif.Parent = w_Screen
         
         for i = 1, 25 do
@@ -949,6 +949,34 @@ end
                 saveSettings()
             end
         end
+
+		base_class.module_silent_toggle_self = function(self) 
+            local t = not self.OToggled
+            self.OToggled = t
+            
+            
+            pcall(self.Flags.Toggled, t)
+            pcall(self.Flags[t and 'Enabled' or 'Disabled'])
+            
+            twn(self.Effect, {Size = t and s1 or s2}, true)
+            
+            if not Configs[self.Name] then
+                Configs[self.Name] = {["Keybind"] = "", ["IsToggled"] = "", ["MenuToggled"] = "", ["Extras"] = {}}
+            end
+
+            if (t) then
+                ModListEnable(self.Name)
+                Configs[self.Name]["IsToggled"] = true
+                saveSettings()
+            else
+                ModListDisable(self.Name)
+                Configs[self.Name]["IsToggled"] = false
+                saveSettings()
+            end
+            return self 
+        end
+
+
         base_class.module_toggle_self = function(self) 
             local t = not self.OToggled
             self.OToggled = t
@@ -1504,6 +1532,7 @@ end
                 M_Object.setvis = base_class.module_setvis
                 
                 M_Object.Toggle = base_class.module_toggle_self
+				M_Object.SilentToggle = base_class.module_silent_toggle_self
                 M_Object.Disable = base_class.module_toggle_disable
                 M_Object.Enable = base_class.module_toggle_enable
                 M_Object.Reset = base_class.module_toggle_reset
@@ -1524,8 +1553,7 @@ end
 
                 if Configs[text] then
                     if Configs[text]["IsToggled"] == true then
-                        M_Object:Toggle()
-						M_Object:Reset()
+                        M_Object:SilentToggle()
                     end
                     if Configs[text]["MenuToggled"] == true then
                         M_Object:ToggleMenu()
