@@ -957,12 +957,12 @@ end
 
             if (t) then
                 ModListEnable(self.Name)
-                ui:Notify("Module toggled", self.Name .. " was Toggled")
+                ui:Notify("Module toggled", self.Name .. " was toggled")
                 Configs[self.Name]["IsToggled"] = true
                 saveSettings()
             else
                 ModListDisable(self.Name)
-                ui:Notify("Module disabled", self.Name .. " was Disabled")
+                ui:Notify("Module disabled", self.Name .. " was disabled")
                 Configs[self.Name]["IsToggled"] = false
                 saveSettings()
             end
