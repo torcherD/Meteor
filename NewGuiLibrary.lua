@@ -861,6 +861,12 @@ local base_class = {} do
         m_Description.TextYAlignment = 'Top'
         m_Description.ZIndex = 162
         --m_Description.Parent = m_Notif
+				
+	m_Icon = instNew('ImageLabel')
+        m_Icon.Size = dimOffset(26, 26)
+        m_Icon.Position = dimOffset(2,2)
+        m_Icon.BackgroundTransparency = 1
+        m_Icon.ImageColor3 = RLTHEMEDATA['ge'][1]
         
     end
     
@@ -887,6 +893,8 @@ local base_class = {} do
             m_Text.Text = title
             m_Description.Text = text
         end
+				
+	m_Icon.Image = warning and 'rbxassetid://8854458547' or 'rbxassetid://10394447871'
         
         m_Sound.SoundId = notifsounds[tone or 'none']
         m_Sound.Playing = true
