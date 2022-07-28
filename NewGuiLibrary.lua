@@ -798,7 +798,7 @@ local base_class = {} do
         m_Notif.BackgroundColor3 = RLTHEMEDATA['bo'][1]
         m_Notif.BackgroundTransparency = RLTHEMEDATA['bo'][2]
         m_Notif.BorderSizePixel = 0
-        m_Notif.Position = dimNew(1, 270, 1, -((#notifs*125)+((#notifs+1)*25)))
+        m_Notif.Position = dimNew(1, 290, 1, -((#notifs*80)+((#notifs+1)*25)))
         m_Notif.Size = dimOffset(180, 90)
         m_Notif.ZIndex = 162
         --m_Notif.Parent = w_Screen
@@ -922,7 +922,7 @@ local base_class = {} do
                     end 
                 end
                 for i = 1, #notifs do 
-                    twn(notifs[i], {Position = dimNew(1, -25, 1, -(((i-1)*125)+(i*25)))}, true)
+                    twn(notifs[i], {Position = dimNew(1, -25, 1, -(((i-1)*80)+(i*25)))}, true)
                 end
                 twn(m_Notif, {Position = dimNew(1, -25, 1, 200)}, true).Completed:Wait()
                 m_Notif:Destroy()
@@ -950,7 +950,9 @@ end
             end
         end
 
-		base_class.module_silent_toggle_self = function(self) 
+
+
+        base_class.module_toggle_self = function(self, nonoti) 
             local t = not self.OToggled
             self.OToggled = t
             
@@ -968,39 +970,16 @@ end
                 ModListEnable(self.Name)
                 Configs[self.Name]["IsToggled"] = true
                 saveSettings()
+				if not nonoti then
+                    ui:Notify("Module toggled", self.Name .. " was toggled")
+				end
             else
                 ModListDisable(self.Name)
                 Configs[self.Name]["IsToggled"] = false
                 saveSettings()
-            end
-            return self 
-        end
-
-
-        base_class.module_toggle_self = function(self) 
-            local t = not self.OToggled
-            self.OToggled = t
-            
-            
-            pcall(self.Flags.Toggled, t)
-            pcall(self.Flags[t and 'Enabled' or 'Disabled'])
-            
-            twn(self.Effect, {Size = t and s1 or s2}, true)
-            
-            if not Configs[self.Name] then
-                Configs[self.Name] = {["Keybind"] = "", ["IsToggled"] = "", ["MenuToggled"] = "", ["Extras"] = {}}
-            end
-
-            if (t) then
-                ModListEnable(self.Name)
-                ui:Notify("Module toggled", self.Name .. " was toggled")
-                Configs[self.Name]["IsToggled"] = true
-                saveSettings()
-            else
-                ModListDisable(self.Name)
-                ui:Notify("Module disabled", self.Name .. " was disabled")
-                Configs[self.Name]["IsToggled"] = false
-                saveSettings()
+				if not nonoti then
+                    ui:Notify("Module disabled", self.Name .. " was disabled")
+				end
             end
             return self 
         end
@@ -1532,7 +1511,6 @@ end
                 M_Object.setvis = base_class.module_setvis
                 
                 M_Object.Toggle = base_class.module_toggle_self
-				M_Object.SilentToggle = base_class.module_silent_toggle_self
                 M_Object.Disable = base_class.module_toggle_disable
                 M_Object.Enable = base_class.module_toggle_enable
                 M_Object.Reset = base_class.module_toggle_reset
@@ -1553,7 +1531,7 @@ end
 
                 if Configs[text] then
                     if Configs[text]["IsToggled"] == true then
-                        M_Object:SilentToggle()
+                        M_Object:Toggle(true)
                     end
                     if Configs[text]["MenuToggled"] == true then
                         M_Object:ToggleMenu()
