@@ -924,7 +924,7 @@ local base_class = {} do
                 for i = 1, #notifs do 
                     twn(notifs[i], {Position = dimNew(1, -25, 1, -(((i-1)*80)+(i*25)))}, true)
                 end
-                twn(m_Notif, {Position = dimNew(1, -25, 1, 200)}, true).Completed:Wait()
+                twn(m_Notif, {Position = dimNew(1, -25, 1, 290)}, true).Completed:Wait()
                 m_Notif:Destroy()
             end
         end)
