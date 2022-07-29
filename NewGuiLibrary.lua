@@ -798,7 +798,7 @@ local base_class = {} do
         m_Notif.BackgroundColor3 = RLTHEMEDATA['bo'][1]
         m_Notif.BackgroundTransparency = RLTHEMEDATA['bo'][2]
         m_Notif.BorderSizePixel = 0
-        m_Notif.Position = dimNew(1, 280, 1, -((#notifs*80)+((#notifs+1)*25)))
+        m_Notif.Position = dimNew(1, 275, 1, -((#notifs*80)+((#notifs+1)*25)))
         m_Notif.Size = dimOffset(180, 90)
         m_Notif.ZIndex = 162
         --m_Notif.Parent = w_Screen
@@ -901,7 +901,7 @@ local base_class = {} do
         
         
         
-        m_Notif.Position = dimNew(1, 290, 1, -((#notifs*80)+((#notifs+1)*25)))
+        m_Notif.Position = dimNew(1, 275, 1, -((#notifs*80)+((#notifs+1)*25)))
         m_Notif.Parent = w_Screen
         
         for i = 1, 25 do
@@ -912,7 +912,7 @@ local base_class = {} do
         
         
         tabInsert(notifs, m_Notif)
-        twn(m_Notif, {Position = m_Notif.Position - dimOffset(290,0)}, true)
+        twn(m_Notif, {Position = m_Notif.Position - dimOffset(275,0)}, true)
         local j = ctwn(m_Progress, {Size = dimOffset(0, 1)}, duration)
         j.Completed:Connect(function()
             do
@@ -924,7 +924,7 @@ local base_class = {} do
                 for i = 1, #notifs do 
                     twn(notifs[i], {Position = dimNew(1, -25, 1, -(((i-1)*80)+(i*25)))}, true)
                 end
-                twn(m_Notif, {Position = dimNew(1, -25, 1, 290)}, true).Completed:Wait()
+                twn(m_Notif, {Position = dimNew(1, -25, 1, 200)}, true).Completed:Wait()
                 m_Notif:Destroy()
             end
         end)
