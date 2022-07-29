@@ -912,7 +912,7 @@ local base_class = {} do
         
         
         tabInsert(notifs, m_Notif)
-        twn(m_Notif, {Position = m_Notif.Position - dimOffset(390,0)}, true)
+        twn(m_Notif, {Position = m_Notif.Position - dimOffset(290,0)}, true)
         local j = ctwn(m_Progress, {Size = dimOffset(0, 1)}, duration)
         j.Completed:Connect(function()
             do
