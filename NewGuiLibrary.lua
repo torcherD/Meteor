@@ -775,161 +775,166 @@ local base_class = {} do
         end
     end
     -- Notificatino
-        do
-    local notifs = {}
-    local notifsounds = {
-        high = 'rbxassetid://9009664674',
-        low = 'rbxassetid://9009665420',
-        none = '',
-        warn = 'rbxassetid://9009666085'
-    }
-    
-    local m_Notif
-    local m_Description
-    local m_Header
-    local m_Icon
-    local m_Text
-    
-    local m_Sound
-    do 
+    do
+        local notifs = {}
+        local notifsounds = {
+            high = 'rbxassetid://9009664674',
+            low = 'rbxassetid://9009665420',
+            none = '',
+            warn = 'rbxassetid://9009666085'
+        }
         
-        m_Notif = instNew('Frame')
-        m_Notif.AnchorPoint = vec2(1,1)
-        m_Notif.BackgroundColor3 = RLTHEMEDATA['bo'][1]
-        m_Notif.BackgroundTransparency = RLTHEMEDATA['bo'][2]
-        m_Notif.BorderSizePixel = 0
-        m_Notif.Position = dimNew(1, 275, 1, -((#notifs*80)+((#notifs+1)*25)))
-        m_Notif.Size = dimOffset(180, 90)
-        m_Notif.ZIndex = 162
-        --m_Notif.Parent = w_Screen
+        local m_Notif
+        local m_Description
+        local m_Header
+        local m_Icon
+        local m_Text
         
-        stroke(m_Notif)
-        
-        m_Sound = instNew('Sound')
-        --m_Sound.Playing = true
-        --m_Sound.SoundId =notifsounds[tone or 3]
-        m_Sound.Volume = 1
-        m_Sound.TimePosition = 0.1
-        --m_Sound.Parent = m_Notif 
-        
-        m_Progress = instNew('Frame')
-        m_Progress.BackgroundColor3 = RLTHEMEDATA['ge'][1]
-        m_Progress.BorderSizePixel = 0
-        m_Progress.Position = dimOffset(0, 30)
-        m_Progress.Size = dimNew(1,0,0,1)
-        m_Progress.ZIndex = 163
-        --m_Progress.Parent = m_Notif
-        
-        m_Header = instNew('Frame')
-        m_Header.BackgroundColor3 = RLTHEMEDATA['bm'][1]
-        m_Header.BackgroundTransparency = RLTHEMEDATA['bm'][2]
-        m_Header.BorderSizePixel = 0
-        m_Header.Size = dimNew(1,0,0,30)
-        m_Header.ZIndex = 162
-        --m_Header.Parent = m_Notif
-        
-        stroke(m_Header)
-        
-        m_Text = instNew('TextLabel')
-        m_Text.BackgroundTransparency = 1
-        m_Text.Font = RLTHEMEFONT
-        m_Text.Position = dimOffset(5, 0)
-        m_Text.RichText = true
-        m_Text.Size = dimNew(1, -27, 1, 0)
-        m_Text.Text = ''
-        m_Text.TextColor3 = RLTHEMEDATA['tm'][1]
-        m_Text.TextSize = 22
-        m_Text.TextStrokeColor3 = RLTHEMEDATA['to'][1]
-        m_Text.TextStrokeTransparency = 0
-        m_Text.TextXAlignment = 'Left'
-        m_Text.ZIndex = 162
-        --m_Text.Parent = m_Header
-        
-        m_Description = instNew('TextLabel')
-        m_Description.BackgroundTransparency = 1
-        m_Description.Font = RLTHEMEFONT
-        m_Description.Position = dimOffset(4, 32)
-        m_Description.RichText = true
-        m_Description.Size = dimNew(1, -4, 1, -32)
-        m_Description.Text = tostring(text)
-        m_Description.TextColor3 = RLTHEMEDATA['tm'][1]
-        m_Description.TextSize = 20
-        m_Description.TextStrokeColor3 = RLTHEMEDATA['to'][1]
-        m_Description.TextStrokeTransparency = 0
-        m_Description.TextWrapped = true
-        m_Description.TextXAlignment = 'Left'
-        m_Description.TextYAlignment = 'Top'
-        m_Description.ZIndex = 162
-        --m_Description.Parent = m_Notif
-				
-	m_Icon = instNew('ImageLabel')
-        m_Icon.Size = dimOffset(26, 26)
-        m_Icon.Position = dimOffset(2,2)
-        m_Icon.BackgroundTransparency = 1
-        m_Icon.ImageColor3 = RLTHEMEDATA['ge'][1]
-        
-    end
-    
-    
-    function ui:Notify(title, text, duration, tone, warning) 
-        duration = mathClamp(duration or 2, 0.1, 30)
-        
-        local m_Notif = m_Notif:Clone()
-        local m_Description = m_Description:Clone()
-        local m_Header = m_Header:Clone()
-        local m_Progress = m_Progress:Clone()
-        local m_Icon = m_Icon:Clone()
-        local m_Text = m_Text:Clone()
-        local m_Sound = m_Sound:Clone()
-        
-        do
-            m_Description.Parent = m_Notif
-            m_Sound.Parent = m_Notif
-            m_Progress.Parent = m_Notif
-            m_Header.Parent = m_Notif
-            m_Icon.Parent = m_Header
-            m_Text.Parent = m_Header
-        end do
-            m_Text.Text = title
-            m_Description.Text = text
-        end
-				
-	m_Icon.Image = warning and 'rbxassetid://8854458547' or 'rbxassetid://10394447871'
-        
-        m_Sound.SoundId = notifsounds[tone or 'none']
-        m_Sound.Playing = true
-        
-        
-        
-        m_Notif.Position = dimNew(1, 275, 1, -((#notifs*80)+((#notifs+1)*25)))
-        m_Notif.Parent = w_Screen
-        
-        for i = 1, 25 do
-            if (m_Text.TextFits) then break end
-            m_Notif.Size += dimOffset(25, 0)
+        local m_Sound
+        do 
+            
+            m_Notif = instNew('Frame')
+            m_Notif.AnchorPoint = vec2(1,1)
+            m_Notif.BackgroundColor3 = RLTHEMEDATA['bo'][1]
+            m_Notif.BackgroundTransparency = RLTHEMEDATA['bo'][2]
+            m_Notif.BorderSizePixel = 0
+            m_Notif.Position = dimNew(1, 290, 1, -((#notifs*80)+((#notifs+1)*25)))
+            m_Notif.Size = dimOffset(180, 90)
+            m_Notif.ZIndex = 162
+            --m_Notif.Parent = w_Screen
+            
+            stroke(m_Notif)
+            
+            m_Sound = instNew('Sound')
+            --m_Sound.Playing = true
+            --m_Sound.SoundId =notifsounds[tone or 3]
+            m_Sound.Volume = 1
+            m_Sound.TimePosition = 0.1
+            --m_Sound.Parent = m_Notif 
+            
+            m_Progress = instNew('Frame')
+            m_Progress.BackgroundColor3 = RLTHEMEDATA['ge'][1]
+            m_Progress.BorderSizePixel = 0
+            m_Progress.Position = dimOffset(0, 30)
+            m_Progress.Size = dimNew(1,0,0,1)
+            m_Progress.ZIndex = 163
+            --m_Progress.Parent = m_Notif
+            
+            m_Header = instNew('Frame')
+            m_Header.BackgroundColor3 = RLTHEMEDATA['bm'][1]
+            m_Header.BackgroundTransparency = RLTHEMEDATA['bm'][2]
+            m_Header.BorderSizePixel = 0
+            m_Header.Size = dimNew(1,0,0,30)
+            m_Header.ZIndex = 162
+            --m_Header.Parent = m_Notif
+            
+            stroke(m_Header)
+            
+            m_Text = instNew('TextLabel')
+            m_Text.BackgroundTransparency = 1
+            m_Text.Font = RLTHEMEFONT
+            m_Text.Position = dimOffset(32, 0)
+            m_Text.RichText = true
+            m_Text.Size = dimNew(1, -32, 1, 0)
+            m_Text.Text = ''
+            m_Text.TextColor3 = RLTHEMEDATA['tm'][1]
+            m_Text.TextSize = 20
+            m_Text.TextStrokeColor3 = RLTHEMEDATA['to'][1]
+            m_Text.TextStrokeTransparency = 0
+            m_Text.TextXAlignment = 'Left'
+            m_Text.ZIndex = 162
+            --m_Text.Parent = m_Header
+            
+            m_Description = instNew('TextLabel')
+            m_Description.BackgroundTransparency = 1
+            m_Description.Font = RLTHEMEFONT
+            m_Description.Position = dimOffset(4, 32)
+            m_Description.RichText = true
+            m_Description.Size = dimNew(1, -4, 1, -32)
+            m_Description.Text = tostring(text)
+            m_Description.TextColor3 = RLTHEMEDATA['tm'][1]
+            m_Description.TextSize = 18
+            m_Description.TextStrokeColor3 = RLTHEMEDATA['to'][1]
+            m_Description.TextStrokeTransparency = 0
+            m_Description.TextWrapped = true
+            m_Description.TextXAlignment = 'Left'
+            m_Description.TextYAlignment = 'Top'
+            m_Description.ZIndex = 162
+            --m_Description.Parent = m_Notif
+            
+            m_Icon = instNew('ImageLabel')
+            m_Icon.Size = dimOffset(26, 26)
+            m_Icon.Position = dimOffset(2,2)
+            m_Icon.BackgroundTransparency = 1
+            m_Icon.ImageColor3 = RLTHEMEDATA['ge'][1]
+            
+            --m_Icon.Image = not warning and 'rbxassetid://8854459207' or 'rbxassetid://8854458547'
+            m_Icon.Rotation = 0
+            m_Icon.ZIndex = 162
+            --m_Icon.Parent = m_Header
         end
         
         
         
-        tabInsert(notifs, m_Notif)
-        twn(m_Notif, {Position = m_Notif.Position - dimOffset(275,0)}, true)
-        local j = ctwn(m_Progress, {Size = dimOffset(0, 1)}, duration)
-        j.Completed:Connect(function()
+        
+        function ui:Notify(title, text, duration, tone, warning) 
+            duration = mathClamp(duration or 2, 0.1, 30)
+            
+            local m_Notif = m_Notif:Clone()
+            local m_Description = m_Description:Clone()
+            local m_Header = m_Header:Clone()
+            local m_Progress = m_Progress:Clone()
+            local m_Icon = m_Icon:Clone()
+            local m_Text = m_Text:Clone()
+            local m_Sound = m_Sound:Clone()
+            
             do
-                for i = 1, #notifs do 
-                    if (notifs[i] == m_Notif) then 
-                        tabRemove(notifs, i) 
-                    end 
-                end
-                for i = 1, #notifs do 
-                    twn(notifs[i], {Position = dimNew(1, -25, 1, -(((i-1)*80)+(i*25)))}, true)
-                end
-                twn(m_Notif, {Position = dimNew(1, -25, 1, 200)}, true).Completed:Wait()
-                m_Notif:Destroy()
+                m_Description.Parent = m_Notif
+                m_Sound.Parent = m_Notif
+                m_Progress.Parent = m_Notif
+                m_Header.Parent = m_Notif
+                m_Icon.Parent = m_Header
+                m_Text.Parent = m_Header
+            end do
+                m_Text.Text = title
+                m_Description.Text = text
             end
-        end)
+            
+            m_Sound.SoundId = notifsounds[tone or 'none']
+            m_Sound.Playing = true
+            
+            m_Icon.Image = warning and 'rbxassetid://8854458547' or 'rbxassetid://8854459207'
+            
+            
+            m_Notif.Position = dimNew(1, 300, 1, -((#notifs*80)+((#notifs+1)*25)))
+            m_Notif.Parent = w_Screen
+            
+            for i = 1, 25 do
+                if (m_Text.TextFits) then break end
+                m_Notif.Size += dimOffset(25, 0)
+            end
+            
+            
+            
+            tabInsert(notifs, m_Notif)
+            twn(m_Notif, {Position = m_Notif.Position - dimOffset(325,0)}, true)
+            local j = ctwn(m_Progress, {Size = dimOffset(0, 1)}, duration)
+            j.Completed:Connect(function()
+                do
+                    for i = 1, #notifs do 
+                        if (notifs[i] == m_Notif) then 
+                            tabRemove(notifs, i) 
+                        end 
+                    end
+                    for i = 1, #notifs do 
+                        twn(notifs[i], {Position = dimNew(1, -25, 1, -(((i-1)*80)+(i*25)))}, true)
+                    end
+                    twn(m_Notif, {Position = dimNew(1, -25, 1, 310)}, true).Completed:Wait()
+                    m_Notif:Destroy()
+                end
+            end)
+        end
     end
-end
     -- Module funcs
     do
         base_class.module_toggle_menu = function(self) 
@@ -3329,6 +3334,9 @@ end,false,999999,Enum.KeyCode.RightShift)
 servContext:BindActionAtPriority('RL-Destroy',function(_,uis) 
     if (uis.Value == 0) then
         ui:Destroy()
+	for i,v in pairs(ui_Connections) do 
+            v:Disconnect() 
+        end
     end
 end,false,999999,Enum.KeyCode.RightControl)
 -- Auto collection
@@ -3340,5 +3348,3 @@ delay(5, function()
 end)
 end
 return ui
-
-
