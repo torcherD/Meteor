@@ -1,3 +1,5 @@
+repeat wait until if game:IsLoaded() and game.Players.LocalPayer:FindFirstChild("LocalScripts") end
+
 local ui = loadstring(game:HttpGet("https://raw.githubusercontent.com/eixotic07/Meteor/main/NewGuiLibrary.lua"))()
 
 -- Services
