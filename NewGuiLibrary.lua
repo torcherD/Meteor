@@ -4,34 +4,29 @@ warn('Unfortunately, your executor is missing the Drawing library and is not sup
 warn('Consider upgrading to an exploit like Fluxus or KRNL')
 return
 end
-
 -- { Make meteor folder } --
 if (not isfile('Meteor')) then
 makefolder('Meteor')
 end
-
 if (not isfile("Meteor/assets")) then
-makefolder("Meteor/assets")
+    makefolder("Meteor/assets")
 end
-
 if (not isfile("Meteor/configs")) then
-makefolder("Meteor/configs")
+    makefolder("Meteor/configs")
 end
-
+if (not isfile("Meteor/scripts")) then
+    makefolder("Meteor/scripts")
+end
+    
 -- { Version } --
 local METEORVER = 'v0.6.3.1'
-
-
 local IndentLevel1 = 8
 local IndentLevel2 = 14
 local IndentLevel3 = 22
 local RightIndent = 14
-
 -- { Wait for load } --
 if not game:IsLoaded() then game.Loaded:Wait() end
-
 -- { Microops } --
-
 -- Services
 local servContext = game:GetService('ContextActionService')
 local servGui = game:GetService('GuiService')
@@ -43,7 +38,6 @@ local servTeleport = game:GetService('TeleportService')
 local servTween = game:GetService('TweenService')
 local servInput = game:GetService('UserInputService')
 local servVim = game:GetService('VirtualInputManager')
-
 -- Colors
 local colRgb,colHsv,colNew = Color3.fromRGB, Color3.fromHSV, Color3.new
 -- UDim2
@@ -71,10 +65,7 @@ local workspace = workspace
 local ipairs = ipairs
 local game = game
 local isrbxactive = isrbxactive
-
-
 if (isrbxactive == nil) then
-
 local active = true
 servInput.WindowFocused:Connect(function() 
     active = true 
@@ -87,19 +78,14 @@ getgenv().isrbxactive = function()
 end
 isrbxactive = isrbxactive
 end
-
-
-
 -- { Load in some shit } --
 local function DecodeThemeJson(json) 
-
 -- Strip away comments
 json = json:gsub('//[^\n]+','')
 -- Convert JSON to lua
 local stuff = servHttp:JSONDecode(json)
 -- Get the theme data
 local theme = stuff['theme']
-
 -- Set up locals
 local RLTHEME
 local RLTHEMEFONT
@@ -150,21 +136,16 @@ do
         RLTHEME[switch[Index]] = _
     end
 end
-
-
 -- Return
 return RLTHEME, RLTHEMEFONT
 end
-
 if (isfile('Meteor/theme.jsonc')) then
 _G.RLLOADERROR = 0
-
 local ThemeData, Font
 pcall(function()
     local FileData = readfile('Meteor/theme.jsonc')
     ThemeData, Font = DecodeThemeJson(FileData)
 end)
-
 if (ThemeData and Font) then
     _G.RLTHEMEDATA = ThemeData
     _G.RLTHEMEFONT = Font
@@ -172,12 +153,9 @@ else
     _G.RLLOADERROR = 2 -- Couldn't load theme properly (JSON decoder failed)
 end
 end
-
 -- ! WARNING ! --
 -- SHITTY THEME CODE BELOW
 -- SKIP DOWN LIKE 2000 LINES TO GET TO THE GOOD STUFF
-
-
 -- { Theme } --
 local RLTHEMEDATA, RLTHEMEFONT do 
 RLTHEMEFONT = _G.RLTHEMEFONT or 'SourceSans'
@@ -210,7 +188,6 @@ if (RLTHEMEFONT:match('https://')) then
         RLTHEMEFONT = 'SourceSans' 
     end
 end
-
 RLTHEMEDATA = _G.RLTHEMEDATA or {} do
     RLTHEMEDATA['go'] = RLTHEMEDATA['go'] or {}
     RLTHEMEDATA['gs'] = RLTHEMEDATA['gs'] or {}
@@ -271,12 +248,10 @@ do
     RLTHEMEDATA['tm'][2]   = RLTHEMEDATA['tm'][2]  or 0;
     RLTHEMEDATA['to'][2]   = RLTHEMEDATA['to'][2]  or 0;
 end
-
 do 
     RLTHEMEDATA['go'][3]  = RLTHEMEDATA['go'][3] or false;
 end
 end
-
 -- { UI functions / variables } --
 local gradient,twn,ctwn,getnext,stroke,round,uierror
 do
@@ -315,7 +290,6 @@ stroke = function(parent,mode, trans)
     _.Parent = parent
     return _
 end
-
 local info1, info2 = TweenInfo.new(0.1,10,1), TweenInfo.new(0.3,10,1)
 function twn(twn_target, twn_settings, twn_long) 
     local tween = servTween:Create(
@@ -347,30 +321,21 @@ function uierror(func, prop, type)
     error(('%s failed; %s is not of type %s'):format(func,prop,type), 3)
 end
 end
-
-
-
 local W_WindowOpen = false or false
 local RGBCOLOR
 -- { UI } --
 local ui = {} do 
-
 local ui_Hotkeys = {}
 local ui_Connections = {}
 local ui_Menus = {}
 local ui_Widgets = {}
 local ui_Modules = {}
 local Configs = {}
-
 local rgbinsts = {}
-
 local monitor_resolution = servGui:GetScreenResolution()
 local monitor_inset = servGui:GetGuiInset()
-
 local SaveDataFileName = "Meteor/Configs/" .. game.PlaceId .. ".txt"
-
 local servHttp = game:GetService("HttpService")
-
 function saveSettings()
     local json;
     if (writefile) then
@@ -380,14 +345,11 @@ function saveSettings()
         game.Players.LocalPlayer:Kick("Get krnl or synapse x")
     end
 end
-
 function loadSettings()
     if (readfile and isfile and isfile(SaveDataFileName)) then
         Configs = servHttp:JSONDecode(readfile(SaveDataFileName));
     end
 end
-
-
 -- connections
 ui_Connections['i'] = servInput.InputBegan:Connect(function(io, gpe) 
     if (gpe == false and io.UserInputType.Value == 8) then
@@ -414,7 +376,6 @@ do
         end
     end)
 end
-
 -- Gui creation
 local w_Screen
  local w_TooltipHeader
@@ -432,15 +393,12 @@ local w_ModList
  local w_ModListTitle
  local w_ModListVer
 local w_MouseCursor
-
-
 local ModlistPadding = {
     dimOffset(-100, 0).X;
     dimOffset(8, 0).X;
     Enum.TextXAlignment.Left;
     'PaddingLeft';
 } 
-
 do 
     w_Screen = instNew('ScreenGui')
     w_Screen.IgnoreGuiInset = true
@@ -564,9 +522,6 @@ do
     w_ModListTitle.TextXAlignment = 'Left'
     w_ModListTitle.ZIndex = 5
     w_ModListTitle.Parent = w_ModList
-
-
-
     
     w_TooltipHeader = instNew('TextLabel')
     w_TooltipHeader.BackgroundColor3 = RLTHEMEDATA['bm'][1]
@@ -635,7 +590,6 @@ do
     w_MouseCursor.ZIndex = 1500
     w_MouseCursor.Parent = w_Screen
 end
-
 function ui:manageml(x1,x2,align,paddir) 
     ModlistPadding[1] = x1 and dimOffset(x1, 0).X or ModlistPadding[1]
     ModlistPadding[2] = x2 and dimOffset(x2, 0).X or ModlistPadding[2]
@@ -668,17 +622,12 @@ function ui:manageml(x1,x2,align,paddir)
         w_ModListTitle;
     }
 end
-
-
-
 ui_Connections['t'] = servRun.RenderStepped:Connect(function() 
     local pos = servInput:GetMouseLocation()
     local x,y = pos.X, pos.Y
     w_TooltipHeader.Position = dimOffset(x+15, y+15)
     w_MouseCursor.Position = dimOffset(x-4, y)
 end)
-
-
 local ModListEnable,ModListDisable,ModListInit,ModListModify do 
     local mods_instance = {}
     
@@ -730,7 +679,6 @@ local ModListEnable,ModListDisable,ModListInit,ModListModify do
         __.Parent = _
     end
 end
-
 -- Base class for stuff
 local base_class = {} do 
     local s1,s2 = dimNew(1,0,1,0), dimNew(0,0,1,0)
@@ -769,6 +717,169 @@ local base_class = {} do
             return self.MToggled
         end
     end
+    -- Notificatino
+    do
+        local notifs = {}
+        local notifsounds = {
+            high = 'rbxassetid://9009664674',
+            low = 'rbxassetid://9009665420',
+            none = '',
+            warn = 'rbxassetid://9009666085'
+        }
+        
+        local m_Notif
+        local m_Description
+        local m_Header
+        local m_Icon
+        local m_Text
+        
+        local m_Sound
+        do 
+            
+            m_Notif = instNew('Frame')
+            m_Notif.AnchorPoint = vec2(1,1)
+            m_Notif.BackgroundColor3 = RLTHEMEDATA['bo'][1]
+            m_Notif.BackgroundTransparency = RLTHEMEDATA['bo'][2]
+            m_Notif.BorderSizePixel = 0
+            m_Notif.Position = dimNew(1, 300, 1, -((#notifs*80)+((#notifs+1)*25)))
+            m_Notif.Size = dimOffset(180, 90)
+            m_Notif.ZIndex = 162
+            --m_Notif.Parent = w_Screen
+            
+            stroke(m_Notif)
+            
+            m_Sound = instNew('Sound')
+            --m_Sound.Playing = true
+            --m_Sound.SoundId =notifsounds[tone or 3]
+            m_Sound.Volume = 1
+            m_Sound.TimePosition = 0.1
+            --m_Sound.Parent = m_Notif 
+            
+            m_Progress = instNew('Frame')
+            m_Progress.BackgroundColor3 = RLTHEMEDATA['ge'][1]
+            m_Progress.BorderSizePixel = 0
+            m_Progress.Position = dimOffset(0, 30)
+            m_Progress.Size = dimNew(1,0,0,1)
+            m_Progress.ZIndex = 163
+            --m_Progress.Parent = m_Notif
+            
+            m_Header = instNew('Frame')
+            m_Header.BackgroundColor3 = RLTHEMEDATA['bm'][1]
+            m_Header.BackgroundTransparency = RLTHEMEDATA['bm'][2]
+            m_Header.BorderSizePixel = 0
+            m_Header.Size = dimNew(1,0,0,30)
+            m_Header.ZIndex = 162
+            --m_Header.Parent = m_Notif
+            
+            stroke(m_Header)
+            
+            m_Text = instNew('TextLabel')
+            m_Text.BackgroundTransparency = 1
+            m_Text.Font = RLTHEMEFONT
+            m_Text.Position = dimOffset(32, 0)
+            m_Text.RichText = true
+            m_Text.Size = dimNew(1, -32, 1, 0)
+            m_Text.Text = ''
+            m_Text.TextColor3 = RLTHEMEDATA['tm'][1]
+            m_Text.TextSize = 22
+            m_Text.TextStrokeColor3 = RLTHEMEDATA['to'][1]
+            m_Text.TextStrokeTransparency = 0
+            m_Text.TextXAlignment = 'Left'
+            m_Text.ZIndex = 162
+            --m_Text.Parent = m_Header
+            
+            m_Description = instNew('TextLabel')
+            m_Description.BackgroundTransparency = 1
+            m_Description.Font = RLTHEMEFONT
+            m_Description.Position = dimOffset(4, 32)
+            m_Description.RichText = true
+            m_Description.Size = dimNew(1, -4, 1, -32)
+            m_Description.Text = tostring(text)
+            m_Description.TextColor3 = RLTHEMEDATA['tm'][1]
+            m_Description.TextSize = 20
+            m_Description.TextStrokeColor3 = RLTHEMEDATA['to'][1]
+            m_Description.TextStrokeTransparency = 0
+            m_Description.TextWrapped = true
+            m_Description.TextXAlignment = 'Left'
+            m_Description.TextYAlignment = 'Top'
+            m_Description.ZIndex = 162
+            --m_Description.Parent = m_Notif
+            
+            m_Icon = instNew('ImageLabel')
+            m_Icon.Size = dimOffset(26, 26)
+            m_Icon.Position = dimOffset(2,2)
+            m_Icon.BackgroundTransparency = 1
+            m_Icon.ImageColor3 = RLTHEMEDATA['ge'][1]
+            
+            --m_Icon.Image = not warning and 'rbxassetid://8854459207' or 'rbxassetid://8854458547'
+            m_Icon.Rotation = 0
+            m_Icon.ZIndex = 162
+            --m_Icon.Parent = m_Header
+        end
+        
+        
+        
+        
+        function ui:Notify(title, text, duration, tone, warning) 
+            duration = mathClamp(duration or 2, 0.1, 30)
+            
+            local m_Notif = m_Notif:Clone()
+            local m_Description = m_Description:Clone()
+            local m_Header = m_Header:Clone()
+            local m_Progress = m_Progress:Clone()
+            local m_Icon = m_Icon:Clone()
+            local m_Text = m_Text:Clone()
+            local m_Sound = m_Sound:Clone()
+            
+            do
+                m_Description.Parent = m_Notif
+                m_Sound.Parent = m_Notif
+                m_Progress.Parent = m_Notif
+                m_Header.Parent = m_Notif
+                m_Icon.Parent = m_Header
+                m_Text.Parent = m_Header
+            end do
+                m_Text.Text = title
+                m_Description.Text = text
+            end
+            
+            m_Sound.SoundId = notifsounds[tone or 'none']
+            m_Sound.Playing = true
+            
+            m_Icon.Image = warning and 'rbxassetid://8854458547' or 'rbxassetid://8854459207'
+            
+            
+            m_Notif.Position = dimNew(1, 300, 1, -((#notifs*80)+((#notifs+1)*25)))
+            m_Notif.Parent = w_Screen
+            
+            for i = 1, 25 do
+                if (m_Text.TextFits) then break end
+                m_Notif.Size += dimOffset(25, 0)
+            end
+            
+            
+            
+            tabInsert(notifs, m_Notif)
+            twn(m_Notif, {Position = m_Notif.Position - dimOffset(325,0)}, true)
+            local j = ctwn(m_Progress, {Size = dimOffset(0, 1)}, duration)
+            j.Completed:Connect(function()
+                do
+                    for i = 1, #notifs do 
+                        if (notifs[i] == m_Notif) then 
+                            tabRemove(notifs, i) 
+                        end 
+                    end
+                    for i = 1, #notifs do 
+                        twn(notifs[i], {Position = dimNew(1, -25, 1, -(((i-1)*80)+(i*25)))}, true)
+                    end
+                    twn(m_Notif, {Position = dimNew(1, -25, 1, 310)}, true).Completed:Wait()
+                    m_Notif:Destroy()
+                end
+            end)
+        end
+    end
+        
+
     -- Module funcs
     do
         base_class.module_toggle_menu = function(self) 
@@ -788,7 +899,7 @@ local base_class = {} do
                 saveSettings()
             end
         end
-        base_class.module_toggle_self = function(self) 
+        base_class.module_toggle_self = function(self, nonoti) 
             local t = not self.OToggled
             self.OToggled = t
             
@@ -798,14 +909,23 @@ local base_class = {} do
             
             twn(self.Effect, {Size = t and s1 or s2}, true)
             
+            if not Configs[self.Name] then
+                Configs[self.Name] = {["Keybind"] = "", ["IsToggled"] = "", ["MenuToggled"] = "", ["Extras"] = {}}
+            end
             if (t) then
                 ModListEnable(self.Name)
                 Configs[self.Name]["IsToggled"] = true
                 saveSettings()
+				if not nonoti then
+                    ui:Notify("Module toggled", self.Name .. " was toggled")
+				end
             else
                 ModListDisable(self.Name)
                 Configs[self.Name]["IsToggled"] = false
                 saveSettings()
+				if not nonoti then
+                    ui:Notify("Module disabled", self.Name .. " was disabled")
+				end
             end
             return self 
         end
@@ -864,7 +984,6 @@ local base_class = {} do
     do
         base_class.s_toggle_self = function(self) 
             local t = not self.Toggled
-
             if (t) then
                 Configs[self.PName]["Extras"][self.Name] = true
                 saveSettings()
@@ -872,7 +991,6 @@ local base_class = {} do
                 Configs[self.PName]["Extras"][self.Name] = false
                 saveSettings()
             end
-
             pcall(self.Flags.Toggled, t)
             pcall(self.Flags.Enabled)
             pcall(self.Flags.Disabled)
@@ -923,7 +1041,6 @@ local base_class = {} do
             
             Configs[self.Parent.Name]["Keybind"] = Enum.KeyCode[hotkey].Name
             saveSettings()
-
             delay(0.01, function()
                 local n = self.Parent.Name
                 for i = 1, #ui_Hotkeys do 
@@ -937,18 +1054,14 @@ local base_class = {} do
                 end, n})
             end)
         end
-
         base_class.s_modhotkey_sethotkey = function(self) 
             local label = self.Label
             label.Text = 'Press any key...'
-
             print(self.Parent.Name)
-
             wait(0.01);
             local c;
             c = servInput.InputBegan:Connect(function(io,gpe)
                 
-
                 Configs[self.Parent.Name]["Keybind"] = io.KeyCode.Name
                 saveSettings()
                 
@@ -1082,9 +1195,10 @@ local base_class = {} do
             local min = self.Min
             local cval = self.CurrentVal
             local pval = self.PreviousVal
-
             
             cval = round(mathClamp(nval, min, self.Max), self.Step)
+			Configs[self.PName]["Extras"][self.Name] = cval
+			saveSettings()
             
             if (pval ~= cval) then
                 pval = cval
@@ -1111,6 +1225,8 @@ local base_class = {} do
             local pos_normalized = mathClamp(xval - self.SliderBg.AbsolutePosition.X, 0, self.SliderSize)
             
             cval = round((pos_normalized * self.RatioInverse)+min, self.Step)
+			Configs[self.PName]["Extras"][self.Name] = cval
+			saveSettings()
             
             if (pval ~= cval) then
                 pval = cval
@@ -1172,8 +1288,8 @@ local base_class = {} do
         self.Flags[flagname] = func
         return self 
     end
+      -- Creation functions
     
-    -- Creation functions
     base_class.menu_create_module = function(self, text, Type, nohotkey) 
         Type = Type or 'Toggle'
         local M_IndexOffset = self.ZIndex+1
@@ -1295,7 +1411,6 @@ local base_class = {} do
                 
             local M_Object = {} do 
                 loadSettings()
-
                 M_Object.Tooltip = nil
                 
                 M_Object.MToggled = false
@@ -1347,19 +1462,14 @@ local base_class = {} do
                 if not Configs[text] then
                     Configs[text] = {["Keybind"] = "", ["IsToggled"] = "", ["MenuToggled"] = "", ["Extras"] = {}}
                 end
-
                 if Configs[text] then
                     if Configs[text]["IsToggled"] == true then
-                        M_Object:Toggle()
+                        M_Object:Toggle(true)
                     end
                     if Configs[text]["MenuToggled"] == true then
                         M_Object:ToggleMenu()
                     end
                 end
-
-                M_Object:Reset()
-
-
                 m_ModuleBackground.InputBegan:Connect(function(io) 
                     local uitv = io.UserInputType.Value
                     if (uitv == 0) then
@@ -1372,7 +1482,6 @@ local base_class = {} do
                         return
                     end
                 end)
-
                 
                 m_ModuleBackground.MouseEnter:Connect(function() 
                     m_ModuleBackground.BackgroundColor3 = RLTHEMEDATA['ho'][1]
@@ -1408,7 +1517,6 @@ local base_class = {} do
               local m_ModuleText
                local m_ModulePadding
               local m_ModuleIcon
-
             do
                 m_ModuleRoot = instNew('Frame')
                 m_ModuleRoot.AutomaticSize = 'Y'
@@ -1535,7 +1643,6 @@ local base_class = {} do
               local m_ModuleText
                local m_ModulePadding
               local m_ModuleIcon
-
             do
                 m_ModuleRoot = instNew('Frame')
                 m_ModuleRoot.Size = dimNew(1, 0, 0, 25)
@@ -1817,10 +1924,8 @@ local base_class = {} do
             if Configs[self.Name] then
                 if Configs[self.Name]["Extras"][text] == true then
                     T_Object:Toggle()
-                    T_Object:Reset()
                 end
             end
-
             t_Toggle.InputBegan:Connect(function(io) 
                 local uitv = io.UserInputType.Value
                 if (uitv == 0) then
@@ -1956,7 +2061,6 @@ local base_class = {} do
             D_Object.Toggle = base_class.s_dropdown_toggle
             D_Object.GetSelection = base_class.s_dropdown_getselection
             D_Object.getValue = base_class.s_dropdown_getselection
-
             
             D_Object.Connect = base_class.generic_connect
             D_Object.setTooltip = base_class.generic_tooltip
@@ -2049,14 +2153,12 @@ local base_class = {} do
         end
         
         do
-
             if Configs[self.Name] then
                 if Configs[self.Name]["Keybind"] ~= "" then
                     H_Object:setNewHotKey(Configs[self.Name]["Keybind"])
                 end
             end
             -- H_Object:setNewHotKey(Enum.KeyCode.R)
-
             h_Hotkey.InputBegan:Connect(function(io) 
                 local uitv = io.UserInputType.Value
                 if (uitv == 0) then
@@ -2163,10 +2265,14 @@ local base_class = {} do
     end
     base_class.module_create_slider = function(self, text, args, primary) 
         text = tostring(text)
+        local newval = nil
+        if Configs[self.Name] then
+            newval = Configs[self.Name]["Extras"][text]
+        end
         
         args['min'] = args['min'] or 0
         args['max'] = args['max'] or 100
-        args['cur'] = args['cur'] or args['min']
+        args['cur'] = newval or args['cur'] or args['min']
         args['step'] = args['step'] or 1
         
         
@@ -2292,6 +2398,7 @@ local base_class = {} do
         local S_Object = {} do 
             S_Object.Tooltip = nil
             S_Object.Name = text
+			S_Object.PName = self.Name
             
             S_Object.SliderFill = s_SliderBar
             S_Object.SliderBg = s_SliderBarBg
@@ -2405,9 +2512,7 @@ local base_class = {} do
         local i_Input
          local i_TextPad
          local i_Icon
-
         do
-
             
             i_Input = instNew('TextBox')
             i_Input.BackgroundColor3 = RLTHEMEDATA['bs'][1]
@@ -2606,7 +2711,6 @@ local base_class = {} do
     end
     base_class.dropdown_create_option = function(self, text) 
         text = tostring(text)
-
         local O_IndexOffset = self.ZIndex + 1
         
         local o_Option
@@ -2752,11 +2856,9 @@ local base_class = {} do
     
     
 end
-
 -- UI functions
 function ui:newMenu(text) 
     loadSettings()
-
     local M_Id = #ui_Menus+1
     local M_IndexOffset = 50+(M_Id * 15)
     
@@ -2776,7 +2878,6 @@ function ui:newMenu(text)
     m_Header.BorderSizePixel = 0
     m_Header.ClipsDescendants = false
     m_Header.Size = dimOffset(1366 < 1500 and 170 or 300, 30)
-
     local FinalPosition do 
     local MenusPerRow = mathFloor(((monitor_resolution.X-100) / 200))
     FinalPosition = dimOffset(60+(((M_Id-1)%MenusPerRow)*(200)), 80+150*(mathFloor((M_Id-1)/MenusPerRow)))
@@ -2824,7 +2925,6 @@ function ui:newMenu(text)
      m_HeaderIcon.Rotation = 180
      m_HeaderIcon.ZIndex = M_IndexOffset+2
      m_HeaderIcon.Parent = m_Header
-
     m_Menu = instNew('Frame')
     m_Menu.AutomaticSize = 'Y'
     m_Menu.BackgroundColor3 = RLTHEMEDATA['bo'][1]
@@ -2871,7 +2971,6 @@ function ui:newMenu(text)
         if not Configs[text] then
             Configs[text] = {["MenuToggled"] = ""}
         end
-
         if Configs[text] then
             if Configs[text]["MenuToggled"] == true then
                 M_Object:Toggle()
@@ -2888,9 +2987,6 @@ function ui:newMenu(text)
             -- Header got input; check type
             local uitv = io.UserInputType.Value
             
-
-
-
             -- If left clicking then do stuff
             if (uitv == 0) then
                 -- Check double click debounce
@@ -3052,7 +3148,6 @@ function ui:CreateWidget(Name, Position, Size, InMeteorWindow)
     end
     return WidgetObject
 end
-
 function ui:Destroy() 
     pcall(ui.Flags.Destroying)
     
@@ -3103,173 +3198,10 @@ end
 function ui:GetModframe() 
     return w_ModFrame
 end
-
-do
-    local notifs = {}
-    local notifsounds = {
-        high = 'rbxassetid://9009664674',
-        low = 'rbxassetid://9009665420',
-        none = '',
-        warn = 'rbxassetid://9009666085'
-    }
     
-    local m_Notif
-    local m_Description
-    local m_Header
-    local m_Icon
-    local m_Text
-    
-    local m_Sound
-    do 
-        
-        m_Notif = instNew('Frame')
-        m_Notif.AnchorPoint = vec2(1,1)
-        m_Notif.BackgroundColor3 = RLTHEMEDATA['bo'][1]
-        m_Notif.BackgroundTransparency = RLTHEMEDATA['bo'][2]
-        m_Notif.BorderSizePixel = 0
-        m_Notif.Position = dimNew(1, 275, 1, -((#notifs*125)+((#notifs+1)*25)))
-        m_Notif.Size = dimOffset(200, 125)
-        m_Notif.ZIndex = 162
-        --m_Notif.Parent = w_Screen
-        
-        stroke(m_Notif)
-        
-        m_Sound = instNew('Sound')
-        --m_Sound.Playing = true
-        --m_Sound.SoundId =notifsounds[tone or 3]
-        m_Sound.Volume = 1
-        m_Sound.TimePosition = 0.1
-        --m_Sound.Parent = m_Notif 
-        
-        m_Progress = instNew('Frame')
-        m_Progress.BackgroundColor3 = RLTHEMEDATA['ge'][1]
-        m_Progress.BorderSizePixel = 0
-        m_Progress.Position = dimOffset(0, 30)
-        m_Progress.Size = dimNew(1,0,0,1)
-        m_Progress.ZIndex = 163
-        --m_Progress.Parent = m_Notif
-        
-        m_Header = instNew('Frame')
-        m_Header.BackgroundColor3 = RLTHEMEDATA['bm'][1]
-        m_Header.BackgroundTransparency = RLTHEMEDATA['bm'][2]
-        m_Header.BorderSizePixel = 0
-        m_Header.Size = dimNew(1,0,0,30)
-        m_Header.ZIndex = 162
-        --m_Header.Parent = m_Notif
-        
-        stroke(m_Header)
-        
-        m_Text = instNew('TextLabel')
-        m_Text.BackgroundTransparency = 1
-        m_Text.Font = RLTHEMEFONT
-        m_Text.Position = dimOffset(32, 0)
-        m_Text.RichText = true
-        m_Text.Size = dimNew(1, -32, 1, 0)
-        m_Text.Text = ''
-        m_Text.TextColor3 = RLTHEMEDATA['tm'][1]
-        m_Text.TextSize = 22
-        m_Text.TextStrokeColor3 = RLTHEMEDATA['to'][1]
-        m_Text.TextStrokeTransparency = 0
-        m_Text.TextXAlignment = 'Left'
-        m_Text.ZIndex = 162
-        --m_Text.Parent = m_Header
-        
-        m_Description = instNew('TextLabel')
-        m_Description.BackgroundTransparency = 1
-        m_Description.Font = RLTHEMEFONT
-        m_Description.Position = dimOffset(4, 32)
-        m_Description.RichText = true
-        m_Description.Size = dimNew(1, -4, 1, -32)
-        m_Description.Text = tostring(text)
-        m_Description.TextColor3 = RLTHEMEDATA['tm'][1]
-        m_Description.TextSize = 20
-        m_Description.TextStrokeColor3 = RLTHEMEDATA['to'][1]
-        m_Description.TextStrokeTransparency = 0
-        m_Description.TextWrapped = true
-        m_Description.TextXAlignment = 'Left'
-        m_Description.TextYAlignment = 'Top'
-        m_Description.ZIndex = 162
-        --m_Description.Parent = m_Notif
-        
-        m_Icon = instNew('ImageLabel')
-        m_Icon.Size = dimOffset(26, 26)
-        m_Icon.Position = dimOffset(2,2)
-        m_Icon.BackgroundTransparency = 1
-        m_Icon.ImageColor3 = RLTHEMEDATA['ge'][1]
-        
-        --m_Icon.Image = not warning and 'rbxassetid://8854459207' or 'rbxassetid://8854458547'
-        m_Icon.Rotation = 0
-        m_Icon.ZIndex = 162
-        --m_Icon.Parent = m_Header
-    end
-    
-    
-    
-    
-    function ui:Notify(title, text, duration, tone, warning) 
-        duration = mathClamp(duration or 2, 0.1, 30)
-        
-        local m_Notif = m_Notif:Clone()
-        local m_Description = m_Description:Clone()
-        local m_Header = m_Header:Clone()
-        local m_Progress = m_Progress:Clone()
-        local m_Icon = m_Icon:Clone()
-        local m_Text = m_Text:Clone()
-        local m_Sound = m_Sound:Clone()
-        
-        do
-            m_Description.Parent = m_Notif
-            m_Sound.Parent = m_Notif
-            m_Progress.Parent = m_Notif
-            m_Header.Parent = m_Notif
-            m_Icon.Parent = m_Header
-            m_Text.Parent = m_Header
-        end do
-            m_Text.Text = title
-            m_Description.Text = text
-        end
-        
-        m_Sound.SoundId = notifsounds[tone or 'none']
-        m_Sound.Playing = true
-        
-        m_Icon.Image = warning and 'rbxassetid://8854458547' or 'rbxassetid://8854459207'
-        
-        
-        m_Notif.Position = dimNew(1, 275, 1, -((#notifs*125)+((#notifs+1)*25)))
-        m_Notif.Parent = w_Screen
-        
-        for i = 1, 25 do
-            if (m_Text.TextFits) then break end
-            m_Notif.Size += dimOffset(25, 0)
-        end
-        
-        
-        
-        tabInsert(notifs, m_Notif)
-        twn(m_Notif, {Position = m_Notif.Position - dimOffset(300,0)}, true)
-        local j = ctwn(m_Progress, {Size = dimOffset(0, 1)}, duration)
-        j.Completed:Connect(function()
-            do
-                for i = 1, #notifs do 
-                    if (notifs[i] == m_Notif) then 
-                        tabRemove(notifs, i) 
-                    end 
-                end
-                for i = 1, #notifs do 
-                    twn(notifs[i], {Position = dimNew(1, -25, 1, -(((i-1)*125)+(i*25)))}, true)
-                end
-                twn(m_Notif, {Position = dimNew(1, -25, 1, 200)}, true).Completed:Wait()
-                m_Notif:Destroy()
-            end
-        end)
-    end
-end
-
 ui.Flags = {}
 ui.Flags.Destroying = true
 ui.Connect = base_class.generic_connect
-
-
 -- Gui binds
 local OldIconEnabled = servInput.MouseIconEnabled
 servContext:BindActionAtPriority('RL-ToggleMenu',function(_,uis) 
@@ -3296,10 +3228,12 @@ servContext:BindActionAtPriority('RL-ToggleMenu',function(_,uis)
         end
     end
 end,false,999999,Enum.KeyCode.RightShift)
-
 servContext:BindActionAtPriority('RL-Destroy',function(_,uis) 
     if (uis.Value == 0) then
         ui:Destroy()
+	for i,v in pairs(ui_Connections) do 
+            v:Disconnect() 
+        end
     end
 end,false,999999,Enum.KeyCode.RightControl)
 -- Auto collection
