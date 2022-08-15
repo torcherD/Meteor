@@ -515,7 +515,7 @@ do
     w_ModListTitle.Size = dimNew(1, 0, 0, 30)
     w_ModListTitle.TextColor3 = RLTHEMEDATA['tm'][1]
     w_ModListTitle.TextSize = 24
-    w_ModListTitle.Text = " ".."Meteor Private ".. METEORVER .. " "
+    w_ModListTitle.Text = " ".."Meteor ".. METEORVER .. " "
     w_ModListTitle.TextStrokeColor3 = RLTHEMEDATA['to'][1]
     w_ModListTitle.TextStrokeTransparency = RLTHEMEDATA['to'][2]
     w_ModListTitle.TextTransparency = RLTHEMEDATA['tm'][1]
@@ -3244,3 +3244,4 @@ delay(5, function()
 end)
 end
 return ui
+
