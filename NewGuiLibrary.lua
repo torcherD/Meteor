@@ -718,147 +718,131 @@ local base_class = {} do
         end
     end
     -- Notificatino
-    local TweenService = game:GetService'TweenService'
-    local Debris = game:GetService'Debris'
-    local CoreGui = game:GetService'CoreGui'
-    local main = {}
-    
-    for i,v in pairs(CoreGui:GetChildren()) do
-        if v.Name == "Notifications" then
-            v:Destroy()
-        end
+    do
+    local notifs = {}
+    local notifsounds = {
+        high = 'rbxassetid://9009664674',
+        low = 'rbxassetid://9009665420',
+        none = '',
+        warn = 'rbxassetid://9009666085'
+    }
+
+    local m_Notif
+    local m_Description
+    local m_Header
+    local m_Icon
+    local m_Text
+
+    local m_Sound
+    do 
+
+        m_Notif = instNew('Frame')
+        m_Notif.AnchorPoint = vec2(1,1)
+        m_Notif.BackgroundColor3 = RLTHEMEDATA['bo'][1]
+        m_Notif.BackgroundTransparency = RLTHEMEDATA['bo'][2]
+        m_Notif.BorderSizePixel = 0
+        m_Notif.Position = dimNew(1, 300, 1, -((#notifs*80)+((#notifs+1)*25)))
+        m_Notif.Size = dimOffset(180, 90)
+        m_Notif.ZIndex = 162
+        --m_Notif.Parent = w_Screen
+
+        stroke(m_Notif)
+
+        m_Sound = instNew('Sound')
+        --m_Sound.Playing = true
+        --m_Sound.SoundId =notifsounds[tone or 3]
+        m_Sound.Volume = 1
+        m_Sound.TimePosition = 0.1
+        --m_Sound.Parent = m_Notif 
+
+        m_Progress = instNew('Frame')
+        m_Progress.BackgroundColor3 = RLTHEMEDATA['ge'][1]
+        m_Progress.BorderSizePixel = 0
+        m_Progress.Position = dimOffset(0, 30)
+        m_Progress.Size = dimNew(1,0,0,1)
+        m_Progress.ZIndex = 163
+        --m_Progress.Parent = m_Notif
+
+        m_Header = instNew('Frame')
+        m_Header.BackgroundColor3 = RLTHEMEDATA['bm'][1]
+        m_Header.BackgroundTransparency = RLTHEMEDATA['bm'][2]
+        m_Header.BorderSizePixel = 0
+        m_Header.Size = dimNew(1,0,0,30)
+        m_Header.ZIndex = 162
+        --m_Header.Parent = m_Notif
+
+        stroke(m_Header)
+
+        m_Text = instNew('TextLabel')
+        m_Text.BackgroundTransparency = 1
+        m_Text.Font = RLTHEMEFONT
+        m_Text.Position = dimOffset(24, 0)
+        m_Text.RichText = true
+        m_Text.Size = dimNew(1, -32, 1, 0)
+        m_Text.Text = ''
+        m_Text.TextColor3 = RLTHEMEDATA['tm'][1]
+        m_Text.TextSize = 22
+        m_Text.TextStrokeColor3 = RLTHEMEDATA['to'][1]
+        m_Text.TextStrokeTransparency = 0
+        m_Text.TextXAlignment = 'Left'
+        m_Text.ZIndex = 162
+        --m_Text.Parent = m_Header
+
+        m_Description = instNew('TextLabel')
+        m_Description.BackgroundTransparency = 1
+        m_Description.Font = RLTHEMEFONT
+        m_Description.Position = dimOffset(4, 32)
+        m_Description.RichText = true
+        m_Description.Size = dimNew(1, -4, 1, -32)
+        m_Description.Text = tostring(text)
+        m_Description.TextColor3 = RLTHEMEDATA['tm'][1]
+        m_Description.TextSize = 20
+        m_Description.TextStrokeColor3 = RLTHEMEDATA['to'][1]
+        m_Description.TextStrokeTransparency = 0
+        m_Description.TextWrapped = true
+        m_Description.TextXAlignment = 'Left'
+        m_Description.TextYAlignment = 'Top'
+        m_Description.ZIndex = 162
+        --m_Description.Parent = m_Notif
+
     end
-    local Notifications = Instance.new("ScreenGui")
-    local Holder = Instance.new("Frame")
-    local UIListLayout = Instance.new("UIListLayout")
-    
-    
-    Notifications.Name = "Notifications"
-    Notifications.Parent = CoreGui
-    Notifications.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-    
-    Holder.Name = "Holder"
-    Holder.Parent = Notifications
-    Holder.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    Holder.BackgroundTransparency = 1.000
-    Holder.Position = UDim2.new(0.76, 0, 0, 0) -- -0.00305676856
-    Holder.Size = UDim2.new(0, 296, 1, 0)
-    
-    UIListLayout.Parent = Holder
-    UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
-    UIListLayout.Padding = UDim.new(0, 5)
-    
-    
-    function main:Notification(title: string, description: string, delay: number, overides: Color3Value)
-    if overides == nil then
-        overides = Color3.fromRGB(255,255,255)
-    end
-    
-        local Notification = Instance.new("Frame")
-        local UICorner = Instance.new("UICorner")
-        local Title = Instance.new("TextLabel")
-        local Description = Instance.new("TextLabel")
-        local deboucne = Instance.new("Frame")
-        local UICorner_2 = Instance.new("UICorner")
-        local Arrow = Instance.new("ImageButton")
-        local UIPadding = Instance.new("UIPadding")
-        
-        Notification.Name = "Notification"
-        Notification.Parent = game:GetService'CoreGui':FindFirstChild'Notifications':FindFirstChild'Holder'
-        Notification.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-        Notification.Position = UDim2.new(0, 0, 0.91502589, 0)
-        Notification.Size = UDim2.new(0, 295, 0, 82)
-        Notification.BackgroundTransparency = 1
-    
-        UICorner.CornerRadius = UDim.new(0, 6)
-        UICorner.Parent = Notification
-        
-        Title.Name = "Title"
-        Title.Parent = Notification
-        Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        Title.BackgroundTransparency = 1.000
-        Title.Position = UDim2.new(0.0406779647, 0, 0, 0)
-        Title.Size = UDim2.new(0, 104, 0, 35)
-        Title.Font = Enum.Font.GothamBold
-        Title.Text = title
-        Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-        Title.TextSize = 15.000
-        Title.TextXAlignment = Enum.TextXAlignment.Left
-        Title.TextTransparency = 1
-    
-        Description.Name = "Description"
-        Description.Parent = Notification
-        Description.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        Description.BackgroundTransparency = 1.000
-        Description.Position = UDim2.new(0.0406779647, 0, 0.280487806, 0)
-        Description.Size = UDim2.new(0, 104, 0, 35)
-        Description.Font = Enum.Font.Gotham
-        Description.Text = description
-        Description.TextColor3 = Color3.fromRGB(255, 255, 255)
-        Description.TextSize = 13.000
-        Description.TextXAlignment = Enum.TextXAlignment.Left
-        Description.TextTransparency = 1
-    
-        deboucne.Name = "deboucne"
-        deboucne.Parent = Notification
-        deboucne.BackgroundColor3 = overides
-        deboucne.Position = UDim2.new(0.0109999999, 0, 0.889999986, 0)
-        deboucne.Size = UDim2.new(0, 287, 0, 7)
-        deboucne.BackgroundTransparency = 1 
-    
-        UICorner_2.CornerRadius = UDim.new(0, 6)
-        UICorner_2.Parent = deboucne
-        
-        Arrow.Name = "Arrow"
-        Arrow.Parent = Notification
-        Arrow.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        Arrow.BackgroundTransparency = 1.000
-        Arrow.Position = UDim2.new(0.901694894, 0, 0.073170729, 0)
-        Arrow.Size = UDim2.new(0, 24, 0, 23)
-        Arrow.Image = "rbxassetid://9733495142"
-        Arrow.ScaleType = Enum.ScaleType.Fit
-        Arrow.ImageTransparency = 1 
-        Arrow.ImageColor3 = overides
-    
-        UIPadding.Parent = Holder
-        UIPadding.PaddingBottom = UDim.new(0, 10)
-        UIPadding.PaddingLeft = UDim.new(0, 20)
-    
-    local function makeVis()
-      TweenService:Create(Notification,TweenInfo.new(.5), { BackgroundTransparency = 0 }):Play()
-      TweenService:Create(Title,TweenInfo.new(.5), { TextTransparency = 0 }):Play()
-      TweenService:Create(Description,TweenInfo.new(.5), { TextTransparency = 0 }):Play()
-      TweenService:Create(deboucne,TweenInfo.new(.5), { BackgroundTransparency = 0 }):Play()
-      TweenService:Create(Arrow,TweenInfo.new(.5), { ImageTransparency = 0 }):Play()
-      wait()        
+
+
+
+
+    function ui:Notify(title, text, duration, tone, warning) 
+        duration = mathClamp(duration or 2, 0.1, 30)
+
+        local m_Notif = m_Notif:Clone()
+        local m_Description = m_Description:Clone()
+        local m_Header = m_Header:Clone()
+        local m_Progress = m_Progress:Clone()
+        local m_Text = m_Text:Clone()
+        local m_Sound = m_Sound:Clone()
+
+        do
+            m_Description.Parent = m_Notif
+            m_Sound.Parent = m_Notif
+            m_Progress.Parent = m_Notif
+            m_Header.Parent = m_Notif
+            m_Icon.Parent = m_Header
+            m_Text.Parent = m_Header
+        end do
+            m_Text.Text = title
+            m_Description.Text = text
         end
-        local function makeInvis()
-            TweenService:Create(Notification,TweenInfo.new(.5), { BackgroundTransparency = 1 }):Play()
-            TweenService:Create(Title,TweenInfo.new(.5), { TextTransparency = 1 }):Play()
-            TweenService:Create(Description,TweenInfo.new(.5), { TextTransparency = 1 }):Play()
-            TweenService:Create(deboucne,TweenInfo.new(.5), { BackgroundTransparency = 1 }):Play()
-            TweenService:Create(Arrow,TweenInfo.new(.5), { ImageTransparency = 1 }):Play()
+
+        m_Sound.SoundId = notifsounds[tone or 'none']
+        m_Sound.Playing = true
+
+
+        m_Notif.Position = dimNew(1, 300, 1, -((#notifs*80)+((#notifs+1)*25)))
+        m_Notif.Parent = w_Screen
+
+        for i = 1, 25 do
+            if (m_Text.TextFits) then break end
+            m_Notif.Size += dimOffset(25, 0)
         end
-    
-    Arrow.MouseButton1Click:Connect(function()
-        makeInvis()
-        Debris:AddItem(Notification, .25)
-        wait()
-    end)
-    
-        makeVis()
-       a =  TweenService:Create(deboucne,TweenInfo.new(delay,Enum.EasingStyle.Quad), { Size = UDim2.new(0, 0, 0, 7)})
-       a:Play()
-       a.Completed:Connect(function(playbackState)
-           wait()
-           makeInvis()
-           Debris:AddItem(Notification, .25)
-       end)
-        return main
-    end
-    
-            
             
             
         
@@ -900,14 +884,14 @@ local base_class = {} do
                 Configs[self.Name]["IsToggled"] = true
                 saveSettings()
 				if not nonoti then
-                main:Notification("Module toggled", .. self.Name .. "was toggled",2,Color3.fromRGB(241, 9, 9))
+                ui:Notify("Module toggled", self.Name .. " was toggled")
 				end
             else
                 ModListDisable(self.Name)
                 Configs[self.Name]["IsToggled"] = false
                 saveSettings()
 				if not nonoti then
-                main:Notification("Module disabled", .. self.Name .. "was disabled",2,Color3.fromRGB(241, 9, 9))
+                ui:Notify("Module disabled", self.Name .. " was disabled")
 				end
             end
             return self 
