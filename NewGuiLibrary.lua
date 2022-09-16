@@ -825,7 +825,7 @@ local base_class = {} do
             m_Sound.Parent = m_Notif
             m_Progress.Parent = m_Notif
             m_Header.Parent = m_Notif
-            m_Icon.Parent = m_Header
+
             m_Text.Parent = m_Header
         end do
             m_Text.Text = title
@@ -835,6 +835,7 @@ local base_class = {} do
         m_Sound.SoundId = notifsounds[tone or 'none']
         m_Sound.Playing = true
 
+    
 
         m_Notif.Position = dimNew(1, 300, 1, -((#notifs*80)+((#notifs+1)*25)))
         m_Notif.Parent = w_Screen
@@ -843,6 +844,27 @@ local base_class = {} do
             if (m_Text.TextFits) then break end
             m_Notif.Size += dimOffset(25, 0)
         end
+
+
+        tabInsert(notifs, m_Notif)
+        twn(m_Notif, {Position = m_Notif.Position - dimOffset(325,0)}, true)
+        local j = ctwn(m_Progress, {Size = dimOffset(0, 1)}, duration)
+        j.Completed:Connect(function()
+            do
+                for i = 1, #notifs do 
+                    if (notifs[i] == m_Notif) then 
+                        tabRemove(notifs, i) 
+                    end 
+                end
+                for i = 1, #notifs do 
+                    twn(notifs[i], {Position = dimNew(1, -25, 1, -(((i-1)*80)+(i*25)))}, true)
+                end
+                twn(m_Notif, {Position = dimNew(1, -25, 1, 310)}, true).Completed:Wait()
+                m_Notif:Destroy()
+            end
+        end)
+    end
+end
             
             
         
