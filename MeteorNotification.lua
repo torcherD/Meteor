@@ -31,12 +31,19 @@ UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
 UIListLayout.Padding = UDim.new(0, 5)
 
 
-function Notification(title: string, description: string, delay: number, backgroundcolor: Color3Value, overides: Color3Value)
+function Notification(title: string, description: string, delay: number, val: string, backgroundcolor: Color3Value)
 
+if backgroundcolor == nil then
+    if val == "toggled" then
+        backgroundcolor = Color3.fromRGB(35, 170, 1)
+    elseif val == "disabled" then
+        backgroundcolor = Color3.fromRGB(139, 0, 0)
+    elseif val == "info" then
+        backgroundcolor = Color3.fromRGB(139, 0, 0)
+    end
 
-if overides == nil then
-    overides = Color3.fromRGB(255,255,255)
-end
+    overides = Color3.fromRGB(180, 180, 180)
+
 
     local Notification = Instance.new("Frame")
     local UICorner = Instance.new("UICorner")
