@@ -135,5 +135,7 @@ a.Completed:Connect(function(playbackState)
     makeInvis()
     Debris:AddItem(Notification, .25)
 end)
-    
+   return _G.main 
 end
+
+return _G.main
