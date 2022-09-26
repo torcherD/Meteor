@@ -1,17 +1,18 @@
-local TweenService = game:GetService'TweenService'
-local Debris = game:GetService'Debris'
-local CoreGui = game:GetService'CoreGui'
-local _G.main = {}
+local TweenService = game:GetService("TweenService")
+local Debris = game:GetService("Debris")
+local CoreGui = game:GetService("CoreGui")
+
+
+local Notifications = Instance.new("ScreenGui")
+local Holder = Instance.new("Frame")
+local UIListLayout = Instance.new("UIListLayout")
+
 
 for i,v in pairs(CoreGui:GetChildren()) do
     if v.Name == "Notifications" then
         v:Destroy()
     end
 end
-local Notifications = Instance.new("ScreenGui")
-local Holder = Instance.new("Frame")
-local UIListLayout = Instance.new("UIListLayout")
-
 
 Notifications.Name = "Notifications"
 Notifications.Parent = CoreGui
@@ -30,7 +31,9 @@ UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
 UIListLayout.Padding = UDim.new(0, 5)
 
 
-function _G.main:Notification(title: string, description: string, delay: number, backgroundcolor: Color3Value, overides: Color3Value)
+function Notification(title: string, description: string, delay: number, backgroundcolor: Color3Value, overides: Color3Value)
+
+
 if overides == nil then
     overides = Color3.fromRGB(255,255,255)
 end
@@ -135,7 +138,6 @@ a.Completed:Connect(function(playbackState)
     makeInvis()
     Debris:AddItem(Notification, .25)
 end)
-   return _G.main 
 end
 
-return _G.main
+return Notification
