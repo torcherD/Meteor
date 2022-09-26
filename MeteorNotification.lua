@@ -1,7 +1,7 @@
 local TweenService = game:GetService'TweenService'
 local Debris = game:GetService'Debris'
 local CoreGui = game:GetService'CoreGui'
-local main = {}
+local _G.main = {}
 
 for i,v in pairs(CoreGui:GetChildren()) do
     if v.Name == "Notifications" then
@@ -30,7 +30,7 @@ UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
 UIListLayout.Padding = UDim.new(0, 5)
 
 
-function main:Notification(title: string, description: string, delay: number, backgroundcolor: Color3Value, overides: Color3Value)
+function _G.main:Notification(title: string, description: string, delay: number, backgroundcolor: Color3Value, overides: Color3Value)
 if overides == nil then
     overides = Color3.fromRGB(255,255,255)
 end
@@ -137,5 +137,3 @@ a.Completed:Connect(function(playbackState)
 end)
     
 end
-return main
-
