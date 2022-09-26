@@ -136,6 +136,6 @@ a.Completed:Connect(function(playbackState)
     Debris:AddItem(Notification, .25)
 end)
     
-return main
 end
+return main
 
