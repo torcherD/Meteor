@@ -62,7 +62,7 @@ end
     Notification.Size = UDim2.new(0, 200, 0, 82)
     Notification.BackgroundTransparency = 1
 
-    UICorner.CornerRadius = UDim.new(0, 6)
+    UICorner.CornerRadius = UDim.new(0, 12)
     UICorner.Parent = Notification
     
     Title.Name = "Title"
