@@ -39,7 +39,7 @@ if backgroundcolor == nil then
     elseif val == "disabled" then
         backgroundcolor = Color3.fromRGB(139, 0, 0)
     elseif val == "info" then
-        backgroundcolor = Color3.fromRGB(139, 0, 0)
+        backgroundcolor = Color3.fromRGB(83,104,149)
     end
 end
 
