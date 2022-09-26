@@ -1,17 +1,18 @@
-local TweenService = game:GetService'TweenService'
-local Debris = game:GetService'Debris'
-local CoreGui = game:GetService'CoreGui'
-local main = {}
+local TweenService = game:GetService("TweenService")
+local Debris = game:GetService("Debris")
+local CoreGui = game:GetService("CoreGui")
+
+
+local Notifications = Instance.new("ScreenGui")
+local Holder = Instance.new("Frame")
+local UIListLayout = Instance.new("UIListLayout")
+
 
 for i,v in pairs(CoreGui:GetChildren()) do
     if v.Name == "Notifications" then
         v:Destroy()
     end
 end
-local Notifications = Instance.new("ScreenGui")
-local Holder = Instance.new("Frame")
-local UIListLayout = Instance.new("UIListLayout")
-
 
 Notifications.Name = "Notifications"
 Notifications.Parent = CoreGui
@@ -30,10 +31,20 @@ UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
 UIListLayout.Padding = UDim.new(0, 5)
 
 
-function main:Notification(title: string, description: string, delay: number, backgroundcolor: Color3Value, overides: Color3Value)
-if overides == nil then
-    overides = Color3.fromRGB(255,255,255)
+function Notification(title: string, description: string, delay: number, val: string, backgroundcolor: Color3Value)
+
+if backgroundcolor == nil then
+    if val == "toggled" then
+        backgroundcolor = Color3.fromRGB(35, 170, 1)
+    elseif val == "disabled" then
+        backgroundcolor = Color3.fromRGB(139, 0, 0)
+    elseif val == "info" then
+        backgroundcolor = Color3.fromRGB(83,104,149)
+    end
 end
+
+    overides = Color3.fromRGB(180, 180, 180)
+
 
     local Notification = Instance.new("Frame")
     local UICorner = Instance.new("UICorner")
@@ -51,7 +62,7 @@ end
     Notification.Size = UDim2.new(0, 200, 0, 82)
     Notification.BackgroundTransparency = 1
 
-    UICorner.CornerRadius = UDim.new(0, 6)
+    UICorner.CornerRadius = UDim.new(0, 10)
     UICorner.Parent = Notification
     
     Title.Name = "Title"
@@ -135,7 +146,6 @@ a.Completed:Connect(function(playbackState)
     makeInvis()
     Debris:AddItem(Notification, .25)
 end)
-    
-return main
 end
 
+return Notification
