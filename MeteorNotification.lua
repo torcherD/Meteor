@@ -41,6 +41,7 @@ if backgroundcolor == nil then
     elseif val == "info" then
         backgroundcolor = Color3.fromRGB(139, 0, 0)
     end
+end
 
     overides = Color3.fromRGB(180, 180, 180)
 
