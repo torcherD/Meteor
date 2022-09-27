@@ -767,14 +767,14 @@ if (Drawing == nil) then
                     Configs[self.Name]["IsToggled"] = true
                     saveSettings()
                     if not nonoti then
-                        moduleenabled("Module Toggled", self.Name .. " was enabled")
+                        moduleenabled("Module Toggled", self.Name .. " was enabled", 2)
                     end
                 else
                     ModListDisable(self.Name)
                     Configs[self.Name]["IsToggled"] = false
                     saveSettings()
                     if not nonoti then
-                        moduledisabled("Module Toggled", self.Name .. " was disabled")
+                        moduledisabled("Module Toggled", self.Name .. " was disabled", 2)
                     end
                 end
                 return self 
