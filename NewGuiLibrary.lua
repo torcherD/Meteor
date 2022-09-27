@@ -17,7 +17,7 @@ if (Drawing == nil) then
     if (not isfile("Meteor/scripts")) then
         makefolder("Meteor/scripts")
     end
-    local MeteorNotifications = loadstring(game:HttpGet("https://raw.githubusercontent.com/eixotic07/Meteor/main/MeteorNotification.lua"))()
+    local MeteorNotificationss = loadstring(game:HttpGet("https://raw.githubusercontent.com/eixotic07/Meteor/main/MeteorNotification.lua"))()
     -- { Version } --
     local METEORVER = 'v0.6.3.1'
     local IndentLevel1 = 8
@@ -721,13 +721,13 @@ if (Drawing == nil) then
     
     
         function createnotification(title, text, duration)
-            MeteorNotification(title, text, duration, "info") 
+            MeteorNotifications(title, text, duration, "info") 
         end
         function moduleenabled(title, text, duration)
-            MeteorNotification(title, text, duration, "toggled") 
+            MeteorNotifications(title, text, duration, "toggled") 
         end
         function moduledisabled(title, text, duration)
-            MeteorNotification(title, text, duration, "disabled") 
+            MeteorNotifications(title, text, duration, "disabled") 
         end
     
         -- Module funcs
