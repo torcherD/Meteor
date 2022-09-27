@@ -17,7 +17,7 @@ if (Drawing == nil) then
     if (not isfile("Meteor/scripts")) then
         makefolder("Meteor/scripts")
     end
-    local MeteorNotificationss = loadstring(game:HttpGet("https://raw.githubusercontent.com/eixotic07/Meteor/main/MeteorNotification.lua"))()
+    local MeteorNotifications = loadstring(game:HttpGet("https://raw.githubusercontent.com/eixotic07/Meteor/main/MeteorNotification.lua"))()
     -- { Version } --
     local METEORVER = 'v0.6.3.1'
     local IndentLevel1 = 8
