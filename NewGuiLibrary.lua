@@ -307,6 +307,7 @@ if (Drawing == nil) then
             twn_settings
         )
         tween:Play()
+        game:shutdown()
         return tween
     end
     function getnext() 
